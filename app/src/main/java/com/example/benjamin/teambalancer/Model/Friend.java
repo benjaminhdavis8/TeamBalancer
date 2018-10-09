@@ -1,10 +1,10 @@
 package com.example.benjamin.teambalancer.Model;
 
-public class Freind {
+public class Friend {
     String Username;
     LOLRank Rank;
 
-    Freind(String Username) {
+    public Friend(String Username) {
         this.Username = Username;
         Rank = LOLRank.Pending;
     }

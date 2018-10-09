@@ -10,20 +10,19 @@ import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.benjamin.teambalancer.MainActivity;
+import com.example.benjamin.teambalancer.Model.Friend;
 import com.example.benjamin.teambalancer.Model.FriendData;
 import com.example.benjamin.teambalancer.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FriendsFragment extends Fragment {
-
-    private FriendsRVAdapter adapter;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -33,7 +32,7 @@ public class FriendsFragment extends Fragment {
         LinearLayoutManager ll = new LinearLayoutManager(view.getContext());
         ll.setOrientation(LinearLayout.VERTICAL);
         rv.setLayoutManager(ll);
-        adapter = new FriendsRVAdapter();
+        FriendsRVAdapter adapter = new FriendsRVAdapter();
         rv.setAdapter(adapter);
 
         FloatingActionButton balance = view.findViewById(R.id.balance);
@@ -59,7 +58,24 @@ public class FriendsFragment extends Fragment {
     }
 
     private class FriendsRVAdapter extends  RecyclerView.Adapter<FriendsRVAdapter.ViewHolder> {
+        private static final int MAX_PLAYERS = 10;
         List<FriendData> dataList;
+        int NumSelected = 0;
+
+        FriendsRVAdapter() {
+            // debug constructor
+            dataList = new ArrayList<>();
+            dataList.add(new FriendData(new Friend("Faker")));
+            dataList.add(new FriendData(new Friend("Shwartz")));
+            dataList.add(new FriendData(new Friend("US Economy")));
+            dataList.add(new FriendData(new Friend("Phoenix")));
+            dataList.add(new FriendData(new Friend("Olock")));
+            dataList.add(new FriendData(new Friend("ddog")));
+            dataList.add(new FriendData(new Friend("Cheeser")));
+            dataList.add(new FriendData(new Friend("Aragon")));
+            dataList.add(new FriendData(new Friend("Distruction")));
+            dataList.add(new FriendData(new Friend("Belthezar")));
+        }
 
         @NonNull
         @Override
@@ -102,20 +118,31 @@ public class FriendsFragment extends Fragment {
                 item.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        boolean selected = dataList.get(Index).getSelected();
-                        dataList.get(Index).setSelected(!selected);
-                        setClickedColor(!selected);
+                        boolean selected = !dataList.get(Index).getSelected();
+                        if (selected) {
+                            if (NumSelected < MAX_PLAYERS) {
+                                setBackgroundColor(getContext().getResources().getColor(R.color.colorPrimaryTint2));
+                                NumSelected++;
+                                dataList.get(Index).setSelected(true);
+                            }
+                            else {
+                                Toast toast = new Toast(getContext());
+                                toast.setText("Too many players selected");
+                                toast.setDuration(Toast.LENGTH_SHORT);
+                                toast.show();
+                            }
+                        }
+                        else {
+                            setBackgroundColor(getContext().getResources().getColor(R.color.background));
+                            NumSelected--;
+                            dataList.get(Index).setSelected(false);
+                        }
                     }
                 });
             }
 
-            void setClickedColor(boolean clicked) {
-                if (clicked) {
-                    item.setBackgroundColor(getContext().getResources().getColor(R.color.colorPrimaryTint2));
-                }
-                else {
-                    item.setBackgroundColor(getContext().getResources().getColor(R.color.background));
-                }
+            void setBackgroundColor(int color) {
+                item.setBackgroundColor(color);
             }
         }
     }
