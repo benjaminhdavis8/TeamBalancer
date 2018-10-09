@@ -5,4 +5,6 @@
     <color name="colorPrimaryTint">#21C1C1</color>
     <color name="colorPrimaryTint2">#1CE1E1</color>
     <color name="colorAccent">#E0DE3C</color>
+
+    <color name="background">#FFFFFF</color>
 </resources>

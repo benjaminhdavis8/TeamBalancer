@@ -4,9 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.example.benjamin.teambalancer.gui.EntryFragment;
-import com.example.benjamin.teambalancer.gui.FrendsFragment;
-import com.example.benjamin.teambalancer.gui.VersesFragment;
+import com.example.benjamin.teambalancer.gui.*;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void switchToFrendsFragmen() {
-        Fragment fragment = new FrendsFragment();
+        Fragment fragment = new FriendsFragment();
         setFragment(fragment);
     }
 
