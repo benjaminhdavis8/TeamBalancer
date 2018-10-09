@@ -5,12 +5,16 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.benjamin.teambalancer.MainActivity;
 import com.example.benjamin.teambalancer.Model.FriendData;
 import com.example.benjamin.teambalancer.R;
 
@@ -30,6 +34,25 @@ public class FriendsFragment extends Fragment {
         rv.setLayoutManager(ll);
         adapter = new FriendsRVAdapter();
         rv.setAdapter(adapter);
+
+        FloatingActionButton balance = view.findViewById(R.id.balance);
+        balance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity)getActivity()).switchToEntryFragment();
+            }
+        });
+
+        Button AddButton = view.findViewById(R.id.add_button);
+        AddButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast message = new Toast(getActivity());
+                message.setDuration(Toast.LENGTH_SHORT);
+                message.setText("Not implemented");
+                message.show();
+            }
+        });
 
         return view;
     }
@@ -57,7 +80,7 @@ public class FriendsFragment extends Fragment {
             return 0;
         }
 
-        public class ViewHolder extends RecyclerView.ViewHolder {
+        class ViewHolder extends RecyclerView.ViewHolder {
             final LinearLayout item;
             final TextView Username;
             final TextView Rank;
@@ -65,7 +88,7 @@ public class FriendsFragment extends Fragment {
             //ImageView PersonalImage;
             //ImageView RankImage;
 
-            public ViewHolder(View itemView) {
+            ViewHolder(View itemView) {
                 super(itemView);
                 Username = itemView.findViewById(R.id.username);
                 Rank = itemView.findViewById(R.id.rank_string);
@@ -73,7 +96,7 @@ public class FriendsFragment extends Fragment {
                 index = -1;
             }
 
-            public void setIndex(final int Index) {
+            void setIndex(final int Index) {
                 this.index = Index;
                 item.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -85,12 +108,12 @@ public class FriendsFragment extends Fragment {
                 });
             }
 
-            public void setClickedColor(boolean clicked) {
+            void setClickedColor(boolean clicked) {
                 if (clicked) {
-                    item.setBackgroundColor(getContext().getColor(R.color.colorPrimaryTint2));
+                    item.setBackgroundColor(getContext().getResources().getColor(R.color.colorPrimaryTint2));
                 }
                 else {
-                    item.setBackgroundColor(getContext().getColor(R.color.background));
+                    item.setBackgroundColor(getContext().getResources().getColor(R.color.background));
                 }
             }
         }
