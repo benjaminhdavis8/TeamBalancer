@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- great button graphics
+https://material.io/tools/icons/?icon=arrow_forward&style=baseline
+-->
+
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,12 +14,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimaryTint"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:orientation="horizontal"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
 
         <ImageButton
+            android:id="@+id/add_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start" />
+            android:layout_gravity="start"
+            android:src="@drawable/add_circle"
+            android:tint="@color/colorPrimary" />
 
         <TextView
             android:layout_width="match_parent"
@@ -34,6 +45,17 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/balance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:src="@drawable/arrow_forward"
+        android:tint="@color/background"
+        tools:layout_editor_absoluteX="328dp"
+        tools:layout_editor_absoluteY="455dp" />
 
 
 </android.support.constraint.ConstraintLayout>
