@@ -3,6 +3,7 @@ package com.example.benjamin.teambalancer.gui;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.design.widget.FloatingActionButton;
@@ -39,11 +40,11 @@ public class FriendsFragment extends Fragment {
         balance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity)getActivity()).switchToEntryFragment();
+                ((MainActivity)getActivity()).switchToVersesFragment();
             }
         });
 
-        Button AddButton = view.findViewById(R.id.add_button);
+        AppCompatImageButton AddButton = view.findViewById(R.id.add_button);
         AddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
