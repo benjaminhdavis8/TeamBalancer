@@ -55,7 +55,8 @@ https://material.io/tools/icons/?icon=arrow_forward&style=baseline
                 android:drawableLeft="@android:drawable/ic_menu_search"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:hint="Username" />
+                android:text=""
+                android:hint="Search Summoner" />
 
             <ImageButton
                 android:id="@+id/add_button"

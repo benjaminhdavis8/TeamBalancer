@@ -31,9 +31,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FriendsFragment extends Fragment {
+
+    private static final int MAX_PLAYERS = 10;
     FriendsRVAdapter adapter;
     FloatingActionButton balanceButton;
     EditText searchBox;
+    AppCompatImageButton addButton;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,6 +44,7 @@ public class FriendsFragment extends Fragment {
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         View view = inflater.inflate(R.layout.fragment_friends, container, false);
         searchBox = view.findViewById(R.id.search_bar);
+        RecyclerView rv = view.findViewById(R.id.friends_RV);
         RecyclerView rv = view.findViewById(R.id.friends_RV);
         LinearLayoutManager ll = new LinearLayoutManager(view.getContext());
         ll.setOrientation(LinearLayout.VERTICAL);
@@ -57,10 +61,10 @@ public class FriendsFragment extends Fragment {
                 activity.switchToVersesFragment();
             }
         });
-        setActionButtonVisable();
+        setActionButtonVisible();
 
-        AppCompatImageButton AddButton = view.findViewById(R.id.add_button);
-        AddButton.setOnClickListener(new View.OnClickListener() {
+        addButton = view.findViewById(R.id.add_button);
+        addButton.setOnClickListener(new View.OnClickListener() {
             final Dialog dialog = new Dialog(getActivity());
             @Override
             public void onClick(View v) {
@@ -111,8 +115,8 @@ public class FriendsFragment extends Fragment {
         return view;
     }
 
-    private void setActionButtonVisable() {
-        if (adapter.NumSelected > 1) {
+    private void setActionButtonVisible() {
+        if (adapter.NumSelected == MAX_PLAYERS) {
             balanceButton.setVisibility(View.VISIBLE);
         }
         else {
@@ -121,7 +125,6 @@ public class FriendsFragment extends Fragment {
     }
 
     private class FriendsRVAdapter extends  RecyclerView.Adapter<FriendsRVAdapter.ViewHolder> {
-        private static final int MAX_PLAYERS = 10;
         List<FriendData> dataList;
         int NumSelected = 0;
 
@@ -136,9 +139,9 @@ public class FriendsFragment extends Fragment {
             dataList.add(new FriendData(new Friend("ddog", LOLRank.Diamond1)));
             dataList.add(new FriendData(new Friend("Cheeser",LOLRank.Platinum2)));
             dataList.add(new FriendData(new Friend("Aragon", LOLRank.Bronze1)));
-            dataList.add(new FriendData(new Friend("Distruction", LOLRank.Bronze2)));
+            dataList.add(new FriendData(new Friend("Destruction", LOLRank.Bronze2)));
             dataList.add(new FriendData(new Friend("Trident")));
-            dataList.add(new FriendData(new Friend("Belthezar", LOLRank.Bronze3)));
+            dataList.add(new FriendData(new Friend("Belthazar", LOLRank.Bronze3)));
         }
 
         @NonNull
@@ -236,8 +239,7 @@ public class FriendsFragment extends Fragment {
                                 dataList.get(Index).setSelected(true);
                             }
                             else {
-                                Toast toast = Toast.makeText(getContext(),"Too many players selected", Toast.LENGTH_SHORT);
-                                toast.show();
+                                Toast.makeText(getActivity(), "Too many players selected", Toast.LENGTH_SHORT).show();
                             }
                         }
                         else {
@@ -246,7 +248,7 @@ public class FriendsFragment extends Fragment {
                             dataList.get(Index).setSelected(false);
                         }
 
-                        setActionButtonVisable();
+                        setActionButtonVisible();
                     }
                 });
             }
