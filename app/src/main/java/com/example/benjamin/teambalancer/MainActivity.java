@@ -7,6 +7,7 @@ import android.os.Bundle;
 import com.example.benjamin.teambalancer.Model.Friend;
 import com.example.benjamin.teambalancer.gui.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -17,6 +18,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         switchToFriendsFragmen();
+
+        // TODO: add in players from savedInstanceState
+        playerList = new ArrayList<>();
     }
 
     public void setPlayerList(List<Friend> List) {

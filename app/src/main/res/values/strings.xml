@@ -7,4 +7,8 @@
     <string name="add_hint">Enter your friends Leuge of Legends Username</string>
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
+    <string name="replaceable">&lt;XXXX&gt;</string>
+    <string name="confirm_hint">Are you sure you want to delete &lt;XXXX&gt;</string>
+    <string name="button_yes">YES</string>
+    <string name="button_no">NO</string>
 </resources>

@@ -3,61 +3,86 @@
 https://material.io/tools/icons/?icon=arrow_forward&style=baseline
 -->
 
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_margin="0dp"
-        android:background="@color/colorPrimaryTint"
-        android:clipToPadding="true"
-        android:orientation="horizontal"
-        android:padding="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginEnd="40dp"
-            android:layout_marginRight="40dp"
-            android:gravity="center"
-            android:text="@string/friends_list_header" />
-    </LinearLayout>
-
-    <EditText
-        android:id="@+id/search_bar"
-        android:layout_width="323dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:layout_marginLeft="20dp"
-        android:layout_marginStart="20dp"
-        android:background="@android:color/darker_gray"
-        android:drawableLeft="@android:drawable/ic_menu_search"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Other text"
-        app:layout_constraintBottom_toTopOf="@+id/freinds_RV"
-        app:layout_constraintEnd_toStartOf="@+id/add_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/freinds_RV"
-        android:layout_width="383dp"
         android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_bar" />
+        android:background="@color/background"
+        android:orientation="vertical"
+        >
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="0dp"
+            android:background="@color/colorPrimaryTint"
+            android:clipToPadding="true"
+            android:orientation="horizontal"
+            android:padding="0dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="40dp"
+                android:layout_marginRight="40dp"
+                android:gravity="center"
+                android:text="@string/friends_list_header" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/search_bar"
+                android:layout_width="0dp"
+                android:layout_weight="9"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@android:color/darker_gray"
+                android:drawableLeft="@android:drawable/ic_menu_search"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:hint="Username" />
+
+            <ImageButton
+                android:id="@+id/add_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="end"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/background"
+                android:src="@drawable/add_circle"
+                android:tint="@color/colorPrimary" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/friends_RV_wrapper"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/friends_RV"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+    </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/balance"
@@ -69,24 +94,6 @@ https://material.io/tools/icons/?icon=arrow_forward&style=baseline
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:src="@drawable/arrow_forward"
-        android:tint="@color/background"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:tint="@color/background" />
 
-    <ImageButton
-        android:id="@+id/add_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/background"
-        android:src="@drawable/add_circle"
-        android:tint="@color/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="@+id/search_bar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/search_bar" />
-
-
-</android.support.constraint.ConstraintLayout>
+</FrameLayout>

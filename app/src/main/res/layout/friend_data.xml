@@ -6,7 +6,9 @@
     android:layout_height="wrap_content"
     android:background="@color/background"
     android:gravity="left"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingStart="8dp"
+    android:paddingLeft="8dp">
 
     <!--
     <ImageView
@@ -44,10 +46,11 @@
         android:id="@+id/delete_button"
         android:src="@drawable/delete"
         android:scaleType="fitXY"
+        android:background="@color/background"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_weight="1"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp" />
+        android:paddingEnd="10dp"
+        android:paddingRight="10dp" />
 
 </LinearLayout>

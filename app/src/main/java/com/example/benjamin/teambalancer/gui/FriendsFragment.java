@@ -13,8 +13,10 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,12 +33,15 @@ import java.util.List;
 public class FriendsFragment extends Fragment {
     FriendsRVAdapter adapter;
     FloatingActionButton balanceButton;
+    EditText searchBox;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         View view = inflater.inflate(R.layout.fragment_friends, container, false);
-        RecyclerView rv = view.findViewById(R.id.freinds_RV);
+        searchBox = view.findViewById(R.id.search_bar);
+        RecyclerView rv = view.findViewById(R.id.friends_RV);
         LinearLayoutManager ll = new LinearLayoutManager(view.getContext());
         ll.setOrientation(LinearLayout.VERTICAL);
         rv.setLayoutManager(ll);
@@ -61,6 +66,7 @@ public class FriendsFragment extends Fragment {
             public void onClick(View v) {
                     dialog.setContentView(R.layout.add_friend_dialog);
                     final EditText edit = dialog.findViewById(R.id.edit);
+                    edit.setText(searchBox.getText());
 
                     Button cancel = dialog.findViewById(R.id.cancel_button);
                     cancel.setOnClickListener(new View.OnClickListener() {
@@ -169,6 +175,7 @@ public class FriendsFragment extends Fragment {
             final LinearLayout item;
             final TextView Username;
             final TextView Rank;
+            final ImageButton deleteButton;
             int Index;
             //ImageView PersonalImage;
             //ImageView RankImage;
@@ -178,6 +185,39 @@ public class FriendsFragment extends Fragment {
                 Username = itemView.findViewById(R.id.username);
                 Rank = itemView.findViewById(R.id.rank_string);
                 item = itemView.findViewById(R.id.friend_field);
+                deleteButton = itemView.findViewById(R.id.delete_button);
+                deleteButton.setOnClickListener(new View.OnClickListener() {
+                    Dialog dialog = new Dialog(getActivity());
+                    @Override
+                    public void onClick(View v) {
+                        if (Index < 0) {
+                            return;
+                        }
+                        dialog.setContentView(R.layout.confirm_dialog);
+                        TextView hint = dialog.findViewById(R.id.confirmTitle);
+                        hint.setText(hint.getText().toString().replace(getResources().getString(R.string.replaceable), Username.getText().toString()));
+
+                        Button cancel = dialog.findViewById(R.id.confirm_no);
+                        cancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.cancel();
+                            }
+                        });
+
+                        Button delete = dialog.findViewById(R.id.confirm_yes);
+                            delete.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dataList.remove(Index);
+                                notifyDataSetChanged();
+                                dialog.cancel();
+                            }
+                        });
+
+                        dialog.show();
+                    }
+                });
                 Index = -1;
             }
 

@@ -3,6 +3,7 @@ package com.example.benjamin.teambalancer.gui;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,13 +45,6 @@ public class VersesFragment extends Fragment {
         return view;
     }
 
-    private void PrintToTeam(LinearLayout teamView, List<Friend> team) {
-        for (Friend f :
-                team) {
-            addPlayer(teamView, f);
-        }
-    }
-
     private void Balance(List<Friend> players) {
         Collections.sort(players);
         int i = 0;
@@ -65,6 +59,15 @@ public class VersesFragment extends Fragment {
 
     }
 
+    private void PrintToTeam(LinearLayout teamView, List<Friend> team) {
+        teamView.removeAllViews();
+        for (Friend f :
+                team) {
+            addPlayer(teamView, f);
+        }
+    }
+
+
     /*
      * Creates a new child lay out with content representing FriendData
      * and ads it to the team LinearLayout.
@@ -75,27 +78,38 @@ public class VersesFragment extends Fragment {
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:layout_marginBottom="50dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="50dp"
-                android:background="@color/colorPrimaryTint"
-                android:orientation="vertical"
-                android:padding="5dp">
+                android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/vs_username"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="USERNAME" />
+                    android:orientation="vertical"
+                    android:background="@color/colorPrimaryTint"
+                    android:layout_marginBottom="0dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="5dp"
+                    android:paddingTop="5dp"
+                    android:paddingRight="5dp"
+                    android:paddingBottom="5dp">
 
-                <TextView
-                    android:id="@+id/vs_rank"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="rank"
-                    android:textColor="@android:color/darker_gray" />
+                    <TextView
+                        android:id="@+id/vs_username"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:text="USERNAME" />
 
+                    <TextView
+                        android:id="@+id/vs_rank"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="rank"
+                        android:maxLines="1"
+                        android:textColor="@android:color/darker_gray" />
+
+                </LinearLayout>
             </LinearLayout>
      *
      */
@@ -103,24 +117,34 @@ public class VersesFragment extends Fragment {
         LinearLayout view = new LinearLayout(getActivity());
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0);
         params.weight = 1;
-        params.setMargins(5, 50, 5, 50);
+        view.setOrientation(LinearLayout.HORIZONTAL);
         view.setLayoutParams(params);
-        view.setBackgroundColor(getContext().getResources().getColor(R.color.colorPrimaryTint));
-        view.setOrientation(LinearLayout.VERTICAL);
-        view.setPadding(5, 5, 5, 5);
+
+        LinearLayout background = new LinearLayout(getActivity());
+        params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.setMargins(10, 0, 10, 0);
+        params.gravity= Gravity.CENTER_VERTICAL | Gravity.START;
+        background.setLayoutParams(params);
+        background.setBackgroundColor(getContext().getResources().getColor(R.color.colorPrimaryTint));
+        background.setOrientation(LinearLayout.VERTICAL);
+        background.setPadding(5, 10, 5, 20);
 
         params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         TextView text = new TextView(getActivity());
         text.setLayoutParams(params);
         text.setText(friend.getUsername());
-        view.addView(text);
+        text.setMaxLines(1);
+        background.addView(text);
 
         params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         text = new TextView(getActivity());
         text.setLayoutParams(params);
         text.setText(friend.getRank().toString());
-        view.addView(text);
+        text.setTextColor(friend.getRankColor());
+        text.setMaxLines(1);
+        background.addView(text);
 
+        view.addView(background);
         team.addView(view);
     }
 }
