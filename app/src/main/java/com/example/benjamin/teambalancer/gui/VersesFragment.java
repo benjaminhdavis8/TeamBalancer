@@ -18,12 +18,18 @@ import com.example.benjamin.teambalancer.R;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class VersesFragment extends Fragment {
     private LinearLayout team1View;
     private LinearLayout team2View;
     private List<Friend> team1List;
     private List<Friend> team2List;
+    private List<Friend> bestTeam1;
+    private List<Friend> bestTeam2;
+
+    private List<Friend> players;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,14 +44,48 @@ public class VersesFragment extends Fragment {
         team1List = new ArrayList<>();
         team2List = new ArrayList<>();
 
-        List<Friend> players = ((MainActivity)getActivity()).getPlayerList();
 
-        Balance(players);
+        players = ((MainActivity)getActivity()).getPlayerList();;
 
-        PrintToTeam(team1View, team1List);
-        PrintToTeam(team2View, team2List);
+        //Balance(players);
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                getActivity().runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        newBalance(players);
+//                    }
+//                });
+//            }
+//        }).start();
+
+
+        //PrintToTeam(team1View, team1List);
+        //PrintToTeam(team2View, team2List);
 
         return view;
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+//        Balance(players);
+//
+        newBalance2(players);
+
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                getActivity().runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        newBalance(players);
+//                    }
+//                });
+//            }
+//        }).start();
     }
 
     private void Balance(List<Friend> players) {
@@ -60,12 +100,103 @@ public class VersesFragment extends Fragment {
             team1List.add(players.get(i*2));
         }
 
+        PrintToTeam(team1View, team1List);
+        PrintToTeam(team2View, team2List);
+
+    }
+
+    private void newBalance(List<Friend> players) {
+
+        int team1MMR = 0;
+        int team2MMR = 0;
+        int bestdiff = 99999;
+        int currdiff = 0;
+
+        for(int n = 0; n < 100; n++)
+        {
+            //Shuffle players and put on both teams
+            Collections.shuffle(players, new Random());
+            team1List = new ArrayList<>();
+            team2List = new ArrayList<>();
+            int i = 0;
+            while (i < players.size()/2) {
+                team2List.add(players.get(i*2));
+                team1List.add(players.get((i*2)+1));
+                i++;
+            }
+            if (players.size()%2 == 1) {
+                team1List.add(players.get(i*2));
+            }
+
+            //Check difference in MMR, keep best choice
+            for (int y = 0; y < team1List.size(); y++) {
+                team1MMR += team1List.get(y).getMMR();
+            }
+            for (int z = 0; z < team2List.size(); z++) {
+                team2MMR += team2List.get(z).getMMR();
+            }
+            currdiff = (team1MMR > team2MMR) ? team1MMR - team2MMR : team2MMR - team1MMR;
+            if (currdiff < bestdiff) {
+                bestdiff = currdiff;
+                bestTeam1 = new ArrayList<>(team1List);
+                bestTeam2 = new ArrayList<>(team2List);
+                PrintToTeam(team1View, bestTeam1);
+                PrintToTeam(team2View, bestTeam2);
+            }
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    private void newBalance2(List<Friend> players) {
+
+        int team1MMR = 0;
+        int team2MMR = 0;
+        int bestdiff = 99999;
+        int currdiff = 0;
+
+        for(int n = 0; n < 100; n++)
+        {
+            //Shuffle players and put on both teams
+            Collections.shuffle(players, new Random());
+            team1List = new ArrayList<>();
+            team2List = new ArrayList<>();
+            int i = 0;
+            while (i < players.size()/2) {
+                team2List.add(players.get(i*2));
+                team1List.add(players.get((i*2)+1));
+                i++;
+            }
+            if (players.size()%2 == 1) {
+                team1List.add(players.get(i*2));
+            }
+
+            //Check difference in MMR, keep best choice
+            for (int y = 0; y < team1List.size(); y++) {
+                team1MMR += team1List.get(y).getMMR();
+            }
+            for (int z = 0; z < team2List.size(); z++) {
+                team2MMR += team2List.get(z).getMMR();
+            }
+            currdiff = (team1MMR > team2MMR) ? team1MMR - team2MMR : team2MMR - team1MMR;
+            if (currdiff < bestdiff) {
+                bestdiff = currdiff;
+                bestTeam1 = new ArrayList<>(team1List);
+                bestTeam2 = new ArrayList<>(team2List);
+                PrintToTeam(team1View, bestTeam1);
+                PrintToTeam(team2View, bestTeam2);
+            }
+        }
+
     }
 
     private void PrintToTeam(LinearLayout teamView, List<Friend> team) {
         teamView.removeAllViews();
-        for (Friend f :
-                team) {
+        for (Friend f : team) {
             addPlayer(teamView, f);
         }
     }

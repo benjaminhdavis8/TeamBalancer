@@ -13,6 +13,8 @@ public class Friend implements Comparable<Friend> {
     private final int CHALLENGER = 0xff1155cc;
     private final int MASTER = 0xffcc7f00;
 
+    private final int BASE_MRR = 850;
+
     private String Username;
     private LOLRank Rank;
     private Integer color;
@@ -23,6 +25,11 @@ public class Friend implements Comparable<Friend> {
 
     public void setUsername(String username) {
         Username = username;
+    }
+
+    public int getMMR() {
+        int MMR = BASE_MRR + (60 * (Rank.ordinal() - 1));
+        return MMR;
     }
 
     public LOLRank getRank() {

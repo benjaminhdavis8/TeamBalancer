@@ -3,6 +3,7 @@ package com.example.benjamin.teambalancer.gui;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +18,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,6 +37,8 @@ public class FriendsFragment extends Fragment {
     private static final int MAX_PLAYERS = 10;
     FriendsRVAdapter adapter;
     FloatingActionButton balanceButton;
+    ImageView backarrow;
+    ConstraintLayout backarrowLayout;
     EditText searchBox;
     AppCompatImageButton addButton;
 
@@ -50,6 +54,9 @@ public class FriendsFragment extends Fragment {
         rv.setLayoutManager(ll);
         adapter = new FriendsRVAdapter();
         rv.setAdapter(adapter);
+
+        backarrow = getActivity().findViewById(R.id.backarrow);
+        backarrowLayout = getActivity().findViewById(R.id.backarrow_layout);
 
         balanceButton = view.findViewById(R.id.balance);
         balanceButton.setOnClickListener(new View.OnClickListener() {
@@ -113,6 +120,23 @@ public class FriendsFragment extends Fragment {
 
         return view;
     }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        backarrowLayout.setVisibility(View.INVISIBLE);
+        backarrowLayout.setClickable(false);
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+
+        backarrowLayout.setVisibility(View.VISIBLE);
+        backarrowLayout.setClickable(true);
+    }
+
 
     private void setActionButtonVisible() {
         if (adapter.NumSelected == MAX_PLAYERS) {

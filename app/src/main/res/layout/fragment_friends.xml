@@ -3,10 +3,10 @@
 https://material.io/tools/icons/?icon=arrow_forward&style=baseline
 -->
 
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -78,6 +78,9 @@ https://material.io/tools/icons/?icon=arrow_forward&style=baseline
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:src="@drawable/arrow_forward"
-        android:tint="@color/background" />
+        android:tint="@color/background"
+        android:backgroundTint="@color/colorAccent"
+        app:borderWidth="0dp"
+        />
 
 </FrameLayout>

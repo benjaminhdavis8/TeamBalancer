@@ -1,8 +1,10 @@
 package com.example.benjamin.teambalancer;
 
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 import com.example.benjamin.teambalancer.Model.Friend;
 import com.example.benjamin.teambalancer.gui.*;
@@ -12,11 +14,21 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     List<Friend> playerList;
+    ConstraintLayout backarrowLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        backarrowLayout = findViewById(R.id.backarrow_layout);
+        backarrowLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         switchToFriendsFragment();
 
         // TODO: add in players from savedInstanceState

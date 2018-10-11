@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorPrimaryDark"
+    >
 
     <LinearLayout
         android:id="@+id/LinearLayout"
@@ -22,8 +24,8 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="50dp"
-            android:layout_marginStart="50dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginStart="40dp"
             android:gravity="start"
             android:text="@string/team_1" />
 
@@ -70,7 +72,8 @@
             android:orientation="vertical"
             app:layout_constraintEnd_toStartOf="@+id/divide"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/LinearLayout" />
+            app:layout_constraintTop_toBottomOf="@+id/LinearLayout"
+            />
 
         <View
             android:id="@+id/divide"
@@ -94,7 +97,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/divide"
-            app:layout_constraintTop_toBottomOf="@+id/LinearLayout"/>
+            app:layout_constraintTop_toBottomOf="@+id/LinearLayout"
+            />
 
     </LinearLayout>
 

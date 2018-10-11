@@ -34,8 +34,6 @@ public enum LOLRank {
     fake1,
     fake2,
     fake3,
-    fake4,
-    fake5,
     Challenger;
 
     @Override
