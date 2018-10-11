@@ -28,6 +28,9 @@ public class VersesFragment extends Fragment {
         super.onCreate(savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_verses, container, false);
 
+        team1List = new ArrayList<>();
+        team2List = new ArrayList<>();
+
         team1View = view.findViewById(R.id.team1);
         team2View = view.findViewById(R.id.team2);
 

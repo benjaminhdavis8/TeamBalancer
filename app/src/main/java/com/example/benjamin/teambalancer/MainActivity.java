@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        switchToFriendsFragmen();
+        switchToFriendsFragment();
     }
 
     public void setPlayerList(List<Friend> List) {
@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         return playerList;
     }
 
-    public void switchToFriendsFragmen() {
+    public void switchToFriendsFragment() {
         Fragment fragment = new FriendsFragment();
         setFragment(fragment);
     }

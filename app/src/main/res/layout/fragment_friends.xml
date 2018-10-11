@@ -43,14 +43,15 @@ https://material.io/tools/icons/?icon=arrow_forward&style=baseline
         android:drawableLeft="@android:drawable/ic_menu_search"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Other text"
-        app:layout_constraintBottom_toTopOf="@+id/freinds_RV"
+        android:text=""
+        android:hint="Search Summoner"
+        app:layout_constraintBottom_toTopOf="@+id/friends_RV"
         app:layout_constraintEnd_toStartOf="@+id/add_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/freinds_RV"
+        android:id="@+id/friends_RV"
         android:layout_width="383dp"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
