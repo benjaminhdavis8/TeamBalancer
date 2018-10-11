@@ -45,7 +45,6 @@ public class FriendsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_friends, container, false);
         searchBox = view.findViewById(R.id.search_bar);
         RecyclerView rv = view.findViewById(R.id.friends_RV);
-        RecyclerView rv = view.findViewById(R.id.friends_RV);
         LinearLayoutManager ll = new LinearLayoutManager(view.getContext());
         ll.setOrientation(LinearLayout.VERTICAL);
         rv.setLayoutManager(ll);

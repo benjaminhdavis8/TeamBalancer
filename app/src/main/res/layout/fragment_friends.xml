@@ -16,29 +16,11 @@ https://material.io/tools/icons/?icon=arrow_forward&style=baseline
         >
 
         <LinearLayout
-            android:id="@+id/linearLayout"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_margin="0dp"
+            android:layout_height="wrap_content"
             android:background="@color/colorPrimaryTint"
-            android:clipToPadding="true"
-            android:orientation="horizontal"
-            android:padding="0dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginEnd="40dp"
-                android:layout_marginRight="40dp"
-                android:gravity="center"
-                android:text="@string/friends_list_header" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            >
 
             <EditText
                 android:id="@+id/search_bar"
@@ -56,7 +38,8 @@ https://material.io/tools/icons/?icon=arrow_forward&style=baseline
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:text=""
-                android:hint="Search Summoner" />
+                android:hint="Search Summoner"
+                />
 
             <ImageButton
                 android:id="@+id/add_button"
@@ -66,9 +49,9 @@ https://material.io/tools/icons/?icon=arrow_forward&style=baseline
                 android:layout_gravity="end"
                 android:layout_marginEnd="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@color/background"
-                android:src="@drawable/add_circle"
-                android:tint="@color/colorPrimary" />
+                android:background="@color/colorPrimaryTint"
+                android:src="@drawable/add_circle_white"
+                />
         </LinearLayout>
 
         <LinearLayout
