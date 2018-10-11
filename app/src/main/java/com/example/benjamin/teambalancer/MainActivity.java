@@ -4,24 +4,30 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.example.benjamin.teambalancer.Model.Friend;
 import com.example.benjamin.teambalancer.gui.*;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
+    List<Friend> playerList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Fragment fragment = new MainPage();
-        setFragment(fragment);
+        switchToFriendsFragmen();
     }
 
-    public void switchToEntryFragment() {
-        Fragment fragment = new EntryFragment();
-        setFragment(fragment);
+    public void setPlayerList(List<Friend> List) {
+        playerList = List;
     }
 
-    public void switchToFrendsFragmen() {
+    public List<Friend> getPlayerList() {
+        return playerList;
+    }
+
+    public void switchToFriendsFragmen() {
         Fragment fragment = new FriendsFragment();
         setFragment(fragment);
     }

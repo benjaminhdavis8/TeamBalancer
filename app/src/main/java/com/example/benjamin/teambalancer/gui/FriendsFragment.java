@@ -7,9 +7,12 @@ import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.design.widget.FloatingActionButton;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,12 +20,15 @@ import android.widget.Toast;
 import com.example.benjamin.teambalancer.MainActivity;
 import com.example.benjamin.teambalancer.Model.Friend;
 import com.example.benjamin.teambalancer.Model.FriendData;
+import com.example.benjamin.teambalancer.Model.LOLRank;
 import com.example.benjamin.teambalancer.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class FriendsFragment extends Fragment {
+    FriendsRVAdapter adapter;
+    FloatingActionButton balanceButton;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -32,16 +38,19 @@ public class FriendsFragment extends Fragment {
         LinearLayoutManager ll = new LinearLayoutManager(view.getContext());
         ll.setOrientation(LinearLayout.VERTICAL);
         rv.setLayoutManager(ll);
-        FriendsRVAdapter adapter = new FriendsRVAdapter();
+        adapter = new FriendsRVAdapter();
         rv.setAdapter(adapter);
 
-        FloatingActionButton balance = view.findViewById(R.id.balance);
-        balance.setOnClickListener(new View.OnClickListener() {
+        balanceButton = view.findViewById(R.id.balance);
+        balanceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity)getActivity()).switchToVersesFragment();
+                MainActivity activity = (MainActivity)getActivity();
+                activity.setPlayerList(adapter.getSelected());
+                activity.switchToVersesFragment();
             }
         });
+        setActionButtonVisable();
 
         AppCompatImageButton AddButton = view.findViewById(R.id.add_button);
         AddButton.setOnClickListener(new View.OnClickListener() {
@@ -54,7 +63,34 @@ public class FriendsFragment extends Fragment {
             }
         });
 
+        EditText search = view.findViewById(R.id.search_bar);
+        search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                return;
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                return;
+            }
+        });
+
         return view;
+    }
+
+    private void setActionButtonVisable() {
+        if (adapter.NumSelected > 1) {
+            balanceButton.setVisibility(View.VISIBLE);
+        }
+        else {
+            balanceButton.setVisibility(View.INVISIBLE);
+        }
     }
 
     private class FriendsRVAdapter extends  RecyclerView.Adapter<FriendsRVAdapter.ViewHolder> {
@@ -65,16 +101,17 @@ public class FriendsFragment extends Fragment {
         FriendsRVAdapter() {
             // debug constructor
             dataList = new ArrayList<>();
-            dataList.add(new FriendData(new Friend("Faker")));
-            dataList.add(new FriendData(new Friend("Shwartz")));
-            dataList.add(new FriendData(new Friend("US Economy")));
-            dataList.add(new FriendData(new Friend("Phoenix")));
-            dataList.add(new FriendData(new Friend("Olock")));
-            dataList.add(new FriendData(new Friend("ddog")));
-            dataList.add(new FriendData(new Friend("Cheeser")));
-            dataList.add(new FriendData(new Friend("Aragon")));
-            dataList.add(new FriendData(new Friend("Distruction")));
-            dataList.add(new FriendData(new Friend("Belthezar")));
+            dataList.add(new FriendData(new Friend("Faker", LOLRank.Master)));
+            dataList.add(new FriendData(new Friend("Shwartz", LOLRank.Silver1)));
+            dataList.add(new FriendData(new Friend("US Economy", LOLRank.Diamond4)));
+            dataList.add(new FriendData(new Friend("Phoenix", LOLRank.Bronze5)));
+            dataList.add(new FriendData(new Friend("Olock", LOLRank.Challenger)));
+            dataList.add(new FriendData(new Friend("ddog", LOLRank.Diamond1)));
+            dataList.add(new FriendData(new Friend("Cheeser",LOLRank.Platinum2)));
+            dataList.add(new FriendData(new Friend("Aragon", LOLRank.Bronze1)));
+            dataList.add(new FriendData(new Friend("Distruction", LOLRank.Bronze2)));
+            dataList.add(new FriendData(new Friend("Trident")));
+            dataList.add(new FriendData(new Friend("Belthezar", LOLRank.Bronze3)));
         }
 
         @NonNull
@@ -94,14 +131,24 @@ public class FriendsFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return 0;
+            return dataList.size();
+        }
+
+        public List<Friend> getSelected() {
+            List<Friend> ret = new ArrayList<>();
+            for (FriendData f : dataList) {
+                if (f.getSelected()) {
+                    ret.add(f.getOriginal());
+                }
+            }
+            return ret;
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
             final LinearLayout item;
             final TextView Username;
             final TextView Rank;
-            int index;
+            int Index;
             //ImageView PersonalImage;
             //ImageView RankImage;
 
@@ -110,11 +157,13 @@ public class FriendsFragment extends Fragment {
                 Username = itemView.findViewById(R.id.username);
                 Rank = itemView.findViewById(R.id.rank_string);
                 item = itemView.findViewById(R.id.friend_field);
-                index = -1;
+                Index = -1;
             }
 
             void setIndex(final int Index) {
-                this.index = Index;
+                this.Index = Index;
+                Username.setText(dataList.get(Index).Username);
+                setRank(dataList.get(Index));
                 item.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -137,8 +186,15 @@ public class FriendsFragment extends Fragment {
                             NumSelected--;
                             dataList.get(Index).setSelected(false);
                         }
+
+                        setActionButtonVisable();
                     }
                 });
+            }
+
+            private void setRank(FriendData friendData) {
+                Rank.setText(friendData.Rank);
+                Rank.setTextColor(friendData.RankColor);
             }
 
             void setBackgroundColor(int color) {

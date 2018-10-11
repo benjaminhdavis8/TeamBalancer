@@ -20,23 +20,22 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layout_weight="1"
+        android:gravity="center"
         android:paddingEnd="10dp"
         android:paddingStart="10dp"
         android:paddingTop="10dp"
-        android:text="USERNAME"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        android:text="USERNAME" />
 
     <TextView
         android:id="@+id/rank_string"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:gravity="center"
         android:paddingEnd="10dp"
         android:paddingStart="10dp"
         android:paddingTop="10dp"
-        android:text="RANK" />
+        android:text="RANK"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <!--
     <Image
