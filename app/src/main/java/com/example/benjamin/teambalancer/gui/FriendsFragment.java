@@ -1,5 +1,6 @@
 package com.example.benjamin.teambalancer.gui;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -54,14 +56,33 @@ public class FriendsFragment extends Fragment {
 
         AppCompatImageButton AddButton = view.findViewById(R.id.add_button);
         AddButton.setOnClickListener(new View.OnClickListener() {
+            final Dialog dialog = new Dialog(getActivity());
             @Override
             public void onClick(View v) {
-                Toast message = new Toast(getActivity());
-                message.setDuration(Toast.LENGTH_SHORT);
-                message.setText("Not implemented");
-                message.show();
-            }
-        });
+                    dialog.setContentView(R.layout.add_friend_dialog);
+                    final EditText edit = dialog.findViewById(R.id.edit);
+
+                    Button cancel = dialog.findViewById(R.id.cancel_button);
+                    cancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.cancel();
+                        }
+                    });
+
+                    Button save = dialog.findViewById(R.id.save_button);
+                    save.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                           adapter.dataList.add(new FriendData(new Friend(edit.getText().toString())));
+                           adapter.notifyDataSetChanged();
+                           dialog.cancel();
+                        }
+                    });
+
+                    dialog.show();
+                }
+            });
 
         EditText search = view.findViewById(R.id.search_bar);
         search.addTextChangedListener(new TextWatcher() {
@@ -175,9 +196,7 @@ public class FriendsFragment extends Fragment {
                                 dataList.get(Index).setSelected(true);
                             }
                             else {
-                                Toast toast = new Toast(getContext());
-                                toast.setText("Too many players selected");
-                                toast.setDuration(Toast.LENGTH_SHORT);
+                                Toast toast = Toast.makeText(getContext(),"Too many players selected", Toast.LENGTH_SHORT);
                                 toast.show();
                             }
                         }

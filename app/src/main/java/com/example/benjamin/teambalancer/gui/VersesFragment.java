@@ -14,6 +14,7 @@ import com.example.benjamin.teambalancer.Model.Friend;
 import com.example.benjamin.teambalancer.Model.FriendData;
 import com.example.benjamin.teambalancer.R;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -30,11 +31,15 @@ public class VersesFragment extends Fragment {
         team1View = view.findViewById(R.id.team1);
         team2View = view.findViewById(R.id.team2);
 
+        team1List = new ArrayList<>();
+        team2List = new ArrayList<>();
+
         List<Friend> players = ((MainActivity)getActivity()).getPlayerList();
 
         Balance(players);
 
         PrintToTeam(team1View, team1List);
+        PrintToTeam(team2View, team2List);
 
         return view;
     }

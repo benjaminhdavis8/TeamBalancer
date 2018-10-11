@@ -17,29 +17,37 @@
 
     <TextView
         android:id="@+id/username"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:paddingEnd="10dp"
-        android:paddingStart="10dp"
-        android:paddingTop="10dp"
+        android:layout_weight="4"
         android:text="USERNAME" />
 
-    <TextView
-        android:id="@+id/rank_string"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:paddingEnd="10dp"
-        android:paddingStart="10dp"
-        android:paddingTop="10dp"
-        android:text="RANK"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        android:layout_weight="4"
+        android:orientation="vertical">
 
-    <!--
-    <Image
-        android:id="@+id/rankImage"
-        />
-    -->
+        <ImageView
+            android:id="@+id/rankImage"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content" />
+
+        <TextView
+            android:id="@+id/rank_string"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="RANK" />
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/delete_button"
+        android:src="@drawable/delete"
+        android:scaleType="fitXY"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp" />
+
 </LinearLayout>
