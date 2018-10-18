@@ -1,4 +1,4 @@
-package com.example.benjamin.teambalancer.Model;
+package com.example.benjamin.teambalancer.Visuals;
 
 import android.content.Context;
 import android.content.res.TypedArray;

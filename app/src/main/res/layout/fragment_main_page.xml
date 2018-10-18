@@ -41,7 +41,7 @@
             <!--android:maxLines="1"-->
             <!--/>-->
 
-        <com.example.benjamin.teambalancer.Model.OutlineTextView
+        <com.example.benjamin.teambalancer.Visuals.OutlineTextView
             android:id="@+id/friends_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -88,7 +88,7 @@
             <!--android:maxLines="1"-->
             <!--/>-->
 
-        <com.example.benjamin.teambalancer.Model.OutlineTextView
+        <com.example.benjamin.teambalancer.Visuals.OutlineTextView
             android:id="@+id/team_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

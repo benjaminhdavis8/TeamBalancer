@@ -1,13 +1,16 @@
 package com.example.benjamin.teambalancer.gui;
 
 import android.app.Dialog;
+import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.design.widget.FloatingActionButton;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -25,22 +28,21 @@ import android.widget.Toast;
 import com.example.benjamin.teambalancer.MainActivity;
 import com.example.benjamin.teambalancer.Model.Friend;
 import com.example.benjamin.teambalancer.Model.FriendData;
-import com.example.benjamin.teambalancer.Model.FriendsList;
 import com.example.benjamin.teambalancer.Model.LOLRank;
 import com.example.benjamin.teambalancer.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SelectFragment extends Fragment {
+public class TeamFragment extends Fragment {
 
     private static final int MAX_PLAYERS = 10;
-    private static final int MIN_PLAYERS = 2;
     FriendsRVAdapter adapter;
     FloatingActionButton balanceButton;
     ImageView backarrow;
-    ConstraintLayout backArrowLayout;
+    ConstraintLayout backarrowLayout;
     EditText searchBox;
+    AppCompatImageButton addButton;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,19 +58,49 @@ public class SelectFragment extends Fragment {
         rv.setAdapter(adapter);
 
         backarrow = getActivity().findViewById(R.id.backarrow);
-        backArrowLayout = getActivity().findViewById(R.id.backarrow_layout);
+        backarrowLayout = getActivity().findViewById(R.id.backarrow_layout);
 
-        balanceButton = view.findViewById(R.id.action_button);
-        balanceButton.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.arrow_forward));
+        balanceButton = view.findViewById(R.id.balance);
         balanceButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 MainActivity activity = (MainActivity)getActivity();
                 activity.setPlayerList(adapter.getSelected());
                 activity.switchToVersesFragment();
-                }
-            });
+            }
+        });
         setActionButtonVisible();
+
+        addButton = view.findViewById(R.id.add_button);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            final Dialog dialog = new Dialog(getActivity());
+            @Override
+            public void onClick(View v) {
+                dialog.setContentView(R.layout.add_friend_dialog);
+                final EditText edit = dialog.findViewById(R.id.edit);
+                edit.setText(searchBox.getText());
+
+                Button cancel = dialog.findViewById(R.id.cancel_button);
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.cancel();
+                    }
+                });
+
+                Button save = dialog.findViewById(R.id.save_button);
+                save.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        adapter.dataList.add(new FriendData(new Friend(edit.getText().toString())));
+                        adapter.notifyDataSetChanged();
+                        dialog.cancel();
+                    }
+                });
+
+                dialog.show();
+            }
+        });
 
         EditText search = view.findViewById(R.id.search_bar);
         search.addTextChangedListener(new TextWatcher() {
@@ -91,29 +123,25 @@ public class SelectFragment extends Fragment {
         return view;
     }
 
-    /*
     @Override
     public void onResume(){
         super.onResume();
 
-        backArrowLayout.setVisibility(View.VISIBLE);
-        backArrowLayout.setClickable(true);
+        backarrowLayout.setVisibility(View.VISIBLE);
+        backarrowLayout.setClickable(true);
     }
 
     @Override
     public void onPause(){
         super.onPause();
 
-        backArrowLayout.setVisibility(View.INVISIBLE);
-        backArrowLayout.setClickable(false);
+        backarrowLayout.setVisibility(View.INVISIBLE);
+        backarrowLayout.setClickable(false);
     }
-    */
+
 
     private void setActionButtonVisible() {
-        if (adapter.NumSelected < MIN_PLAYERS || adapter.NumSelected > MAX_PLAYERS) {
-            balanceButton.setVisibility(View.INVISIBLE);
-        }
-        else {
+        if (adapter.NumSelected == MAX_PLAYERS) {
             balanceButton.setVisibility(View.VISIBLE);
         }
         else {
@@ -206,7 +234,7 @@ public class SelectFragment extends Fragment {
                         });
 
                         Button delete = dialog.findViewById(R.id.confirm_yes);
-                            delete.setOnClickListener(new View.OnClickListener() {
+                        delete.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 dataList.remove(Index);
@@ -261,3 +289,4 @@ public class SelectFragment extends Fragment {
         }
     }
 }
+
