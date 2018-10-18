@@ -6,5 +6,8 @@
     <color name="colorPrimaryTint2">#1CE1E1</color>
     <color name="colorAccent">#E0DE3C</color>
 
+    <color name="white">#FDFDFD</color>
+    <color name="black">#020202</color>
+
     <color name="background">#FFFFFF</color>
 </resources>

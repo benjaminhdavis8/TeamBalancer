@@ -125,16 +125,16 @@ public class FriendsFragment extends Fragment {
     public void onResume(){
         super.onResume();
 
-        backarrowLayout.setVisibility(View.INVISIBLE);
-        backarrowLayout.setClickable(false);
+        backarrowLayout.setVisibility(View.VISIBLE);
+        backarrowLayout.setClickable(true);
     }
 
     @Override
     public void onPause(){
         super.onPause();
 
-        backarrowLayout.setVisibility(View.VISIBLE);
-        backarrowLayout.setClickable(true);
+        backarrowLayout.setVisibility(View.INVISIBLE);
+        backarrowLayout.setClickable(false);
     }
 
 
