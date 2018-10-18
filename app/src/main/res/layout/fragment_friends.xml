@@ -38,20 +38,7 @@ https://material.io/tools/icons/?icon=arrow_forward&style=baseline
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:text=""
-                android:hint="Search Summoner"
-                />
-
-            <ImageButton
-                android:id="@+id/add_button"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="end"
-                android:layout_marginEnd="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@color/colorPrimaryTint"
-                android:src="@drawable/add_circle_white"
-                />
+                android:hint="Search Summoner" />
         </LinearLayout>
 
         <LinearLayout
@@ -69,7 +56,7 @@ https://material.io/tools/icons/?icon=arrow_forward&style=baseline
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/balance"
+        android:id="@+id/action_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
@@ -77,10 +64,8 @@ https://material.io/tools/icons/?icon=arrow_forward&style=baseline
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:src="@drawable/arrow_forward"
         android:tint="@color/background"
         android:backgroundTint="@color/colorAccent"
-        app:borderWidth="0dp"
-        />
+        app:borderWidth="0dp" />
 
 </FrameLayout>

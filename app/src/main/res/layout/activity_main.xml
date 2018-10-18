@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -31,7 +29,7 @@
                 android:gravity="center"
                 android:id="@+id/backarrow_layout"
                 android:clickable="true"
-                >
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/backarrow"
@@ -54,8 +52,6 @@
         </LinearLayout>
 
     </android.support.v7.widget.Toolbar>
-
-
 
     <LinearLayout
         android:id="@+id/linearLayout1"

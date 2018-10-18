@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.benjamin.teambalancer.Model.Friend;
+import com.example.benjamin.teambalancer.Model.LOLRank;
 import com.example.benjamin.teambalancer.gui.*;
 
 import java.util.ArrayList;
@@ -15,7 +16,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     List<Friend> playerList;
-    ConstraintLayout backarrowLayout;
+    List<Friend> friendList;
+    ConstraintLayout backArrowLayout;
     private FragmentManager fm = getSupportFragmentManager();
 
     @Override
@@ -23,8 +25,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        backarrowLayout = findViewById(R.id.backarrow_layout);
-        backarrowLayout.setOnClickListener(new View.OnClickListener() {
+        backArrowLayout = findViewById(R.id.backarrow_layout);
+        backArrowLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
@@ -53,8 +55,13 @@ public class MainActivity extends AppCompatActivity {
                 .addToBackStack(null).commit();
     }
 
+    public void switchToSelectFragment() {
+        Fragment fragment = new SelectFragment();
+        setFragment(fragment);
+    }
+
     public void switchToFriendsFragment() {
-        Fragment fragment = new FriendsFragment();
+        Fragment fragment = new FrendsFragment();
         setFragment(fragment);
     }
 

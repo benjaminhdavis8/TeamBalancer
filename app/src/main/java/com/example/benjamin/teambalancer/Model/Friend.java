@@ -18,6 +18,19 @@ public class Friend implements Comparable<Friend> {
     private String Username;
     private LOLRank Rank;
     private Integer color;
+    Boolean Selected;
+
+    public Friend(String Username) {
+        this.Username = Username;
+        Rank = LOLRank.UNRANKED;
+        Selected = false;
+    }
+
+    public Friend(String Username, LOLRank Rank) {
+        this.Username = Username;
+        this.Rank = Rank;
+        Selected = false;
+    }
 
     public String getUsername() {
         return Username;
@@ -40,14 +53,16 @@ public class Friend implements Comparable<Friend> {
         Rank = rank;
     }
 
-    public Friend(String Username) {
-        this.Username = Username;
-        Rank = LOLRank.UNRANKED;
+    public String getRankText() {
+        return this.getRank().toString();
     }
 
-    public Friend(String Username, LOLRank Rank) {
-        this.Username = Username;
-        this.Rank = Rank;
+    public Boolean getSelected() {
+        return Selected;
+    }
+
+    public void setSelected(Boolean selected) {
+        Selected = selected;
     }
 
     public int getRankColor() {

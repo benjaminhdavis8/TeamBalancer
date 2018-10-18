@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.design.widget.FloatingActionButton;
@@ -32,15 +31,15 @@ import com.example.benjamin.teambalancer.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FriendsFragment extends Fragment {
+public class SelectFragment extends Fragment {
 
     private static final int MAX_PLAYERS = 10;
+    private static final int MIN_PLAYERS = 2;
     FriendsRVAdapter adapter;
     FloatingActionButton balanceButton;
     ImageView backarrow;
-    ConstraintLayout backarrowLayout;
+    ConstraintLayout backArrowLayout;
     EditText searchBox;
-    AppCompatImageButton addButton;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,49 +55,19 @@ public class FriendsFragment extends Fragment {
         rv.setAdapter(adapter);
 
         backarrow = getActivity().findViewById(R.id.backarrow);
-        backarrowLayout = getActivity().findViewById(R.id.backarrow_layout);
+        backArrowLayout = getActivity().findViewById(R.id.backarrow_layout);
 
-        balanceButton = view.findViewById(R.id.balance);
+        balanceButton = view.findViewById(R.id.action_button);
+        balanceButton.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.arrow_forward));
         balanceButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 MainActivity activity = (MainActivity)getActivity();
                 activity.setPlayerList(adapter.getSelected());
                 activity.switchToVersesFragment();
-            }
-        });
-        setActionButtonVisible();
-
-        addButton = view.findViewById(R.id.add_button);
-        addButton.setOnClickListener(new View.OnClickListener() {
-            final Dialog dialog = new Dialog(getActivity());
-            @Override
-            public void onClick(View v) {
-                    dialog.setContentView(R.layout.add_friend_dialog);
-                    final EditText edit = dialog.findViewById(R.id.edit);
-                    edit.setText(searchBox.getText());
-
-                    Button cancel = dialog.findViewById(R.id.cancel_button);
-                    cancel.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            dialog.cancel();
-                        }
-                    });
-
-                    Button save = dialog.findViewById(R.id.save_button);
-                    save.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                           adapter.dataList.add(new FriendData(new Friend(edit.getText().toString())));
-                           adapter.notifyDataSetChanged();
-                           dialog.cancel();
-                        }
-                    });
-
-                    dialog.show();
                 }
             });
+        setActionButtonVisible();
 
         EditText search = view.findViewById(R.id.search_bar);
         search.addTextChangedListener(new TextWatcher() {
@@ -121,29 +90,30 @@ public class FriendsFragment extends Fragment {
         return view;
     }
 
+    /*
     @Override
     public void onResume(){
         super.onResume();
 
-        backarrowLayout.setVisibility(View.VISIBLE);
-        backarrowLayout.setClickable(true);
+        backArrowLayout.setVisibility(View.VISIBLE);
+        backArrowLayout.setClickable(true);
     }
 
     @Override
     public void onPause(){
         super.onPause();
 
-        backarrowLayout.setVisibility(View.INVISIBLE);
-        backarrowLayout.setClickable(false);
+        backArrowLayout.setVisibility(View.INVISIBLE);
+        backArrowLayout.setClickable(false);
     }
-
+    */
 
     private void setActionButtonVisible() {
-        if (adapter.NumSelected == MAX_PLAYERS) {
-            balanceButton.setVisibility(View.VISIBLE);
+        if (adapter.NumSelected < MIN_PLAYERS || adapter.NumSelected > MAX_PLAYERS) {
+            balanceButton.setVisibility(View.INVISIBLE);
         }
         else {
-            balanceButton.setVisibility(View.INVISIBLE);
+            balanceButton.setVisibility(View.VISIBLE);
         }
     }
 
