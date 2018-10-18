@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        switchToFriendsFragment();
+        switchToMainPageFragment();
 
         // TODO: add in players from savedInstanceState
         playerList = new ArrayList<>();
@@ -41,6 +41,11 @@ public class MainActivity extends AppCompatActivity {
 
     public List<Friend> getPlayerList() {
         return playerList;
+    }
+
+    public void switchToMainPageFragment() {
+        Fragment fragment = new MainPageFragment();
+        setFragment(fragment);
     }
 
     public void switchToFriendsFragment() {

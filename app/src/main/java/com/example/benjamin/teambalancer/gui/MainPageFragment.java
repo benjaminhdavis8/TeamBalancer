@@ -11,7 +11,7 @@ import android.widget.Button;
 import com.example.benjamin.teambalancer.MainActivity;
 import com.example.benjamin.teambalancer.R;
 
-public class MainPage extends Fragment {
+public class MainPageFragment extends Fragment {
 
     Button friendsButton;
     Button entryButton;
@@ -20,7 +20,7 @@ public class MainPage extends Fragment {
         super.onCreate(savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_main_page, container, false);
 
-        friendsButton = view.findViewById(R.id.frends_list);
+        friendsButton = view.findViewById(R.id.friends_list);
         friendsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
