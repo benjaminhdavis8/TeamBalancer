@@ -41,7 +41,7 @@ public class MainPageFragment extends Fragment {
         teamButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) getActivity()).switchToTeamFragment();
+                ((MainActivity) getActivity()).switchToSelectFragment();
             }
         });
 

@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.example.benjamin.teambalancer.MainActivity;
 import com.example.benjamin.teambalancer.Model.Friend;
 import com.example.benjamin.teambalancer.Model.FriendData;
+import com.example.benjamin.teambalancer.Model.FriendsList;
 import com.example.benjamin.teambalancer.Model.LOLRank;
 import com.example.benjamin.teambalancer.R;
 
@@ -136,7 +137,7 @@ public class FriendsFragment extends Fragment {
 
         FriendsRVAdapter() {
             // debug constructor
-            dataList = new ArrayList<>();
+            dataList = FriendsList.getInstance().getFriends();
         }
 
         @NonNull

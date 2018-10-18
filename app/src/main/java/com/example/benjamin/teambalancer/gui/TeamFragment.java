@@ -60,7 +60,7 @@ public class TeamFragment extends Fragment {
         backarrow = getActivity().findViewById(R.id.backarrow);
         backarrowLayout = getActivity().findViewById(R.id.backarrow_layout);
 
-        balanceButton = view.findViewById(R.id.balance);
+        balanceButton = view.findViewById(R.id.action_button);
         balanceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,36 +71,6 @@ public class TeamFragment extends Fragment {
         });
         setActionButtonVisible();
 
-        addButton = view.findViewById(R.id.add_button);
-        addButton.setOnClickListener(new View.OnClickListener() {
-            final Dialog dialog = new Dialog(getActivity());
-            @Override
-            public void onClick(View v) {
-                dialog.setContentView(R.layout.add_friend_dialog);
-                final EditText edit = dialog.findViewById(R.id.edit);
-                edit.setText(searchBox.getText());
-
-                Button cancel = dialog.findViewById(R.id.cancel_button);
-                cancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.cancel();
-                    }
-                });
-
-                Button save = dialog.findViewById(R.id.save_button);
-                save.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        adapter.dataList.add(new FriendData(new Friend(edit.getText().toString())));
-                        adapter.notifyDataSetChanged();
-                        dialog.cancel();
-                    }
-                });
-
-                dialog.show();
-            }
-        });
 
         EditText search = view.findViewById(R.id.search_bar);
         search.addTextChangedListener(new TextWatcher() {

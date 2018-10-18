@@ -23,7 +23,7 @@ public class FriendsList {
         friendsList.add(new Friend("Belthazar", LOLRank.Bronze3));
     }
 
-    public FriendsList getInstance() {
+    public static FriendsList getInstance() {
         return instance;
     }
 

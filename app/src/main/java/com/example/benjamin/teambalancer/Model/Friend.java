@@ -15,7 +15,6 @@ public class Friend implements Comparable<Friend> {
 
     private final int BASE_MRR = 850;
 
-    Boolean Selected;
 
     private String Username;
     private LOLRank Rank;
@@ -116,14 +115,6 @@ public class Friend implements Comparable<Friend> {
             color = BLACK;
         }
         return color;
-    }
-
-    public Boolean getSelected() {
-        return Selected;
-    }
-
-    public void setSelected(Boolean selected) {
-        Selected = selected;
     }
 
     @Override
