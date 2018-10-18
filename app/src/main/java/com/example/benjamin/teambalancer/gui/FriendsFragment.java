@@ -1,6 +1,7 @@
 package com.example.benjamin.teambalancer.gui;
 
 import android.app.Dialog;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
@@ -81,9 +82,11 @@ public class FriendsFragment extends Fragment {
                 save.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                       adapter.dataList.add(new Friend(edit.getText().toString()));
-                       adapter.notifyDataSetChanged();
-                       edit.setText("");
+                        if(edit.getText().length() > 0) {
+                            adapter.dataList.add(0, new Friend(edit.getText().toString()));
+                            adapter.notifyDataSetChanged();
+                            edit.setText("");
+                        }
                     }
                 });
 
@@ -112,7 +115,6 @@ public class FriendsFragment extends Fragment {
         return view;
     }
 
-    /*
     @Override
     public void onResume(){
         super.onResume();
@@ -128,7 +130,6 @@ public class FriendsFragment extends Fragment {
         backArrowLayout.setVisibility(View.INVISIBLE);
         backArrowLayout.setClickable(false);
     }
-    */
 
 
     private class FriendsRVAdapter extends  RecyclerView.Adapter<FriendsRVAdapter.ViewHolder> {
@@ -174,6 +175,7 @@ public class FriendsFragment extends Fragment {
             final LinearLayout item;
             final TextView Username;
             final TextView Rank;
+            final ImageView RankGraphic;
             final ImageButton deleteButton;
             int Index;
             //ImageView PersonalImage;
@@ -184,6 +186,7 @@ public class FriendsFragment extends Fragment {
                 Username = itemView.findViewById(R.id.username);
                 Rank = itemView.findViewById(R.id.rank_string);
                 item = itemView.findViewById(R.id.friend_field);
+                RankGraphic = itemView.findViewById(R.id.rank_image);
                 deleteButton = itemView.findViewById(R.id.delete_button);
                 deleteButton.setOnClickListener(new View.OnClickListener() {
                     Dialog dialog = new Dialog(getActivity());
@@ -224,37 +227,16 @@ public class FriendsFragment extends Fragment {
                 this.Index = Index;
                 Username.setText(dataList.get(Index).getUsername());
                 setRank(dataList.get(Index));
-                item.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        boolean selected = !dataList.get(Index).getSelected();
-                        if (selected) {
-                            if (NumSelected < MAX_PLAYERS) {
-                                setBackgroundColor(getContext().getResources().getColor(R.color.colorPrimaryTint2));
-                                NumSelected++;
-                                dataList.get(Index).setSelected(true);
-                            }
-                            else {
-                                Toast.makeText(getActivity(), "Too many players selected", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                        else {
-                            setBackgroundColor(getContext().getResources().getColor(R.color.background));
-                            NumSelected--;
-                            dataList.get(Index).setSelected(false);
-                        }
-                    }
-                });
             }
 
             private void setRank(Friend friend) {
                 Rank.setText(friend.getRankText());
                 Rank.setTextColor(friend.getRankColor());
+                LOLRank Enum = friend.getRank();
+                Drawable drawable = friend.getRankGraphic(getActivity());
+                RankGraphic.setImageDrawable(drawable);
             }
 
-            void setBackgroundColor(int color) {
-                item.setBackgroundColor(color);
-            }
         }
     }
 }

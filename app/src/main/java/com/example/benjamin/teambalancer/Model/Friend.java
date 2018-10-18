@@ -1,6 +1,10 @@
 package com.example.benjamin.teambalancer.Model;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+
+import com.example.benjamin.teambalancer.R;
 
 import static android.graphics.Color.BLACK;
 
@@ -18,6 +22,7 @@ public class Friend implements Comparable<Friend> {
 
     private String Username;
     private LOLRank Rank;
+    private Drawable drawable;
     private Integer color;
     Boolean Selected;
 
@@ -115,6 +120,58 @@ public class Friend implements Comparable<Friend> {
             color = BLACK;
         }
         return color;
+    }
+
+    public Drawable getRankGraphic(Context context) {
+        if (this.drawable != null) {
+            return this.drawable;
+        }
+
+        if (Rank == LOLRank.Bronze1 ||
+                Rank == LOLRank.Bronze2 ||
+                Rank == LOLRank.Bronze3 ||
+                Rank == LOLRank.Bronze4 ||
+                Rank == LOLRank.Bronze5) {
+            drawable = context.getResources().getDrawable(R.drawable.bronzei);
+        }
+        else if(Rank == LOLRank.Silver1 ||
+                Rank == LOLRank.Silver2 ||
+                Rank == LOLRank.Silver3 ||
+                Rank == LOLRank.Silver4 ||
+                Rank == LOLRank.Silver5) {
+            drawable = context.getResources().getDrawable(R.drawable.silver);
+        }
+        else if(Rank == LOLRank.Gold1 ||
+                Rank == LOLRank.Gold2 ||
+                Rank == LOLRank.Gold3 ||
+                Rank == LOLRank.Gold4 ||
+                Rank == LOLRank.Gold5) {
+            drawable = context.getResources().getDrawable(R.drawable.gold);
+        }
+        else if(Rank == LOLRank.Diamond1 ||
+                Rank == LOLRank.Diamond2 ||
+                Rank == LOLRank.Diamond3 ||
+                Rank == LOLRank.Diamond4 ||
+                Rank == LOLRank.Diamond5) {
+            drawable = context.getResources().getDrawable(R.drawable.diamondi);
+        }
+        else if(Rank == LOLRank.Platinum1 ||
+                Rank == LOLRank.Platinum2 ||
+                Rank == LOLRank.Platinum3 ||
+                Rank == LOLRank.Platinum4 ||
+                Rank == LOLRank.Platinum5) {
+            drawable = context.getResources().getDrawable(R.drawable.platinumv);
+        }
+        else if (Rank == LOLRank.Challenger) {
+            drawable = context.getResources().getDrawable(R.drawable.challenger);
+        }
+        else if (Rank == LOLRank.Master) {
+            drawable = context.getResources().getDrawable(R.drawable.master);
+        }
+        else {
+            drawable = context.getResources().getDrawable(R.drawable.white);
+        }
+        return drawable;
     }
 
     @Override

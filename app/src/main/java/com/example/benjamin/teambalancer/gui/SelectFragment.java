@@ -1,6 +1,6 @@
 package com.example.benjamin.teambalancer.gui;
 
-import android.app.Dialog;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
@@ -14,9 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,7 +22,6 @@ import android.widget.Toast;
 
 import com.example.benjamin.teambalancer.MainActivity;
 import com.example.benjamin.teambalancer.Model.Friend;
-import com.example.benjamin.teambalancer.Model.FriendData;
 import com.example.benjamin.teambalancer.Model.FriendsList;
 import com.example.benjamin.teambalancer.Model.LOLRank;
 import com.example.benjamin.teambalancer.R;
@@ -91,7 +88,6 @@ public class SelectFragment extends Fragment {
         return view;
     }
 
-    /*
     @Override
     public void onResume(){
         super.onResume();
@@ -107,7 +103,6 @@ public class SelectFragment extends Fragment {
         backArrowLayout.setVisibility(View.INVISIBLE);
         backArrowLayout.setClickable(false);
     }
-    */
 
     private void setActionButtonVisible() {
         if (adapter.NumSelected < MIN_PLAYERS || adapter.NumSelected > MAX_PLAYERS) {
@@ -119,37 +114,29 @@ public class SelectFragment extends Fragment {
     }
 
     private class FriendsRVAdapter extends  RecyclerView.Adapter<FriendsRVAdapter.ViewHolder> {
-        List<FriendData> dataList;
+        List<Friend> dataList;
         int NumSelected = 0;
 
         FriendsRVAdapter() {
             // debug constructor
-            dataList = new ArrayList<>();
-            dataList.add(new FriendData(new Friend("Faker", LOLRank.Master)));
-            dataList.add(new FriendData(new Friend("Shwartz", LOLRank.Silver1)));
-            dataList.add(new FriendData(new Friend("US Economy", LOLRank.Diamond4)));
-            dataList.add(new FriendData(new Friend("Phoenix", LOLRank.Bronze5)));
-            dataList.add(new FriendData(new Friend("Olock", LOLRank.Challenger)));
-            dataList.add(new FriendData(new Friend("ddog", LOLRank.Diamond1)));
-            dataList.add(new FriendData(new Friend("Cheeser",LOLRank.Platinum2)));
-            dataList.add(new FriendData(new Friend("Aragon", LOLRank.Bronze1)));
-            dataList.add(new FriendData(new Friend("Destruction", LOLRank.Bronze2)));
-            dataList.add(new FriendData(new Friend("Trident")));
-            dataList.add(new FriendData(new Friend("Belthazar", LOLRank.Bronze3)));
+            dataList = FriendsList.getInstance().getFriends();
+            for (Friend f: dataList) {
+                f.setSelected(false);
+            }
         }
 
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.friend_data, parent, false);
+                    .inflate(R.layout.select_data, parent, false);
             return new FriendsRVAdapter.ViewHolder(v);
         }
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-            holder.Username.setText(dataList.get(position).Username);
-            holder.Rank.setText(dataList.get(position).Rank);
+            holder.Username.setText(dataList.get(position).getUsername());
+            holder.Rank.setText(dataList.get(position).getRankText());
             holder.setIndex(position);
         }
 
@@ -160,9 +147,9 @@ public class SelectFragment extends Fragment {
 
         public List<Friend> getSelected() {
             List<Friend> ret = new ArrayList<>();
-            for (FriendData f : dataList) {
+            for (Friend f : dataList) {
                 if (f.getSelected()) {
-                    ret.add(f.getOriginal());
+                    ret.add(f);
                 }
             }
             return ret;
@@ -172,7 +159,7 @@ public class SelectFragment extends Fragment {
             final LinearLayout item;
             final TextView Username;
             final TextView Rank;
-            final ImageButton deleteButton;
+            final ImageView RankGraphic;
             int Index;
             //ImageView PersonalImage;
             //ImageView RankImage;
@@ -181,46 +168,14 @@ public class SelectFragment extends Fragment {
                 super(itemView);
                 Username = itemView.findViewById(R.id.username);
                 Rank = itemView.findViewById(R.id.rank_string);
+                RankGraphic = itemView.findViewById(R.id.rank_image);
                 item = itemView.findViewById(R.id.friend_field);
-                deleteButton = itemView.findViewById(R.id.delete_button);
-                deleteButton.setOnClickListener(new View.OnClickListener() {
-                    Dialog dialog = new Dialog(getActivity());
-                    @Override
-                    public void onClick(View v) {
-                        if (Index < 0) {
-                            return;
-                        }
-                        dialog.setContentView(R.layout.confirm_dialog);
-                        TextView hint = dialog.findViewById(R.id.confirmTitle);
-                        hint.setText(hint.getText().toString().replace(getResources().getString(R.string.replaceable), Username.getText().toString()));
-
-                        Button cancel = dialog.findViewById(R.id.confirm_no);
-                        cancel.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dialog.cancel();
-                            }
-                        });
-
-                        Button delete = dialog.findViewById(R.id.confirm_yes);
-                            delete.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dataList.remove(Index);
-                                notifyDataSetChanged();
-                                dialog.cancel();
-                            }
-                        });
-
-                        dialog.show();
-                    }
-                });
                 Index = -1;
             }
 
             void setIndex(final int Index) {
                 this.Index = Index;
-                Username.setText(dataList.get(Index).Username);
+                Username.setText(dataList.get(Index).getUsername());
                 setRank(dataList.get(Index));
                 item.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -247,9 +202,13 @@ public class SelectFragment extends Fragment {
                 });
             }
 
-            private void setRank(FriendData friendData) {
-                Rank.setText(friendData.Rank);
-                Rank.setTextColor(friendData.RankColor);
+            private void setRank(Friend friendData) {
+                Rank.setText(friendData.getRankText());
+                Rank.setTextColor(friendData.getRankColor());
+
+                LOLRank Enum = friendData.getRank();
+                Drawable drawable = friendData.getRankGraphic(getActivity());
+                RankGraphic.setImageDrawable(drawable);
             }
 
             void setBackgroundColor(int color) {
