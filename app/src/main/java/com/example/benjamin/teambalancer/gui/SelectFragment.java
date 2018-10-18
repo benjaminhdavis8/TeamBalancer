@@ -116,9 +116,6 @@ public class SelectFragment extends Fragment {
         else {
             balanceButton.setVisibility(View.VISIBLE);
         }
-        else {
-            balanceButton.setVisibility(View.INVISIBLE);
-        }
     }
 
     private class FriendsRVAdapter extends  RecyclerView.Adapter<FriendsRVAdapter.ViewHolder> {
