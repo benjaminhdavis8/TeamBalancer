@@ -31,7 +31,7 @@ import com.example.benjamin.teambalancer.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FrendsFragment extends Fragment {
+public class FriendsFragment extends Fragment {
 
     private static final int MAX_PLAYERS = 10;
     private static final int MIN_PLAYERS = 2;

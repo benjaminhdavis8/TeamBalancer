@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.benjamin.teambalancer.Model.Friend;
-import com.example.benjamin.teambalancer.Model.LOLRank;
 import com.example.benjamin.teambalancer.gui.*;
 
 import java.util.ArrayList;
@@ -61,7 +60,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void switchToFriendsFragment() {
-        Fragment fragment = new FrendsFragment();
+        Fragment fragment = new FriendsFragment();
+        setFragment(fragment);
+    }
+
+    public void switchToTeamFragment() {
+        Fragment fragment = new TeamFragment();
         setFragment(fragment);
     }
 
