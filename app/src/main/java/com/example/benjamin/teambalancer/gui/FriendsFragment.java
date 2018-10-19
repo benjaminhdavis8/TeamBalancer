@@ -231,7 +231,8 @@ public class FriendsFragment extends Fragment {
 
             private void setRank(Friend friend) {
                 Rank.setText(friend.getRankText());
-                Rank.setTextColor(friend.getRankColor());
+
+                Rank.setTextColor(friend.getRankColor(getContext()));
                 LOLRank Enum = friend.getRank();
                 Drawable drawable = friend.getRankGraphic(getActivity());
                 RankGraphic.setImageDrawable(drawable);

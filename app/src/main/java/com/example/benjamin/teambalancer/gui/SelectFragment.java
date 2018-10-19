@@ -38,19 +38,22 @@ public class SelectFragment extends Fragment {
     ImageView backarrow;
     ConstraintLayout backArrowLayout;
     EditText searchBox;
+    TextView selectedCount;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        View view = inflater.inflate(R.layout.fragment_friends, container, false);
-        searchBox = view.findViewById(R.id.search_bar);
+        View view = inflater.inflate(R.layout.fragment_team, container, false);
         RecyclerView rv = view.findViewById(R.id.friends_RV);
         LinearLayoutManager ll = new LinearLayoutManager(view.getContext());
         ll.setOrientation(LinearLayout.VERTICAL);
         rv.setLayoutManager(ll);
         adapter = new FriendsRVAdapter();
         rv.setAdapter(adapter);
+
+        searchBox = view.findViewById(R.id.search_bar);
+        selectedCount = view.findViewById(R.id.selected_count);
 
         backarrow = getActivity().findViewById(R.id.backarrow);
         backArrowLayout = getActivity().findViewById(R.id.backarrow_layout);
@@ -138,6 +141,7 @@ public class SelectFragment extends Fragment {
             holder.Username.setText(dataList.get(position).getUsername());
             holder.Rank.setText(dataList.get(position).getRankText());
             holder.setIndex(position);
+            holder.setBGColor();
         }
 
         @Override
@@ -173,6 +177,15 @@ public class SelectFragment extends Fragment {
                 Index = -1;
             }
 
+            void setBGColor() {
+                boolean selected = dataList.get(Index).getSelected();
+                if (selected) {
+                    setBackgroundColor(getContext().getResources().getColor(R.color.colorPrimaryTint2));
+                } else {
+                    setBackgroundColor(getContext().getResources().getColor(R.color.background));
+                }
+            }
+
             void setIndex(final int Index) {
                 this.Index = Index;
                 Username.setText(dataList.get(Index).getUsername());
@@ -180,11 +193,12 @@ public class SelectFragment extends Fragment {
                 item.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        boolean selected = !dataList.get(Index).getSelected();
-                        if (selected) {
+                        boolean selected = dataList.get(Index).getSelected();
+                        if (!selected) {
                             if (NumSelected < MAX_PLAYERS) {
                                 setBackgroundColor(getContext().getResources().getColor(R.color.colorPrimaryTint2));
                                 NumSelected++;
+                                selectedCount.setText(NumSelected + "/10");
                                 dataList.get(Index).setSelected(true);
                             }
                             else {
@@ -194,6 +208,7 @@ public class SelectFragment extends Fragment {
                         else {
                             setBackgroundColor(getContext().getResources().getColor(R.color.background));
                             NumSelected--;
+                            selectedCount.setText(NumSelected + "/10");
                             dataList.get(Index).setSelected(false);
                         }
 
@@ -204,7 +219,7 @@ public class SelectFragment extends Fragment {
 
             private void setRank(Friend friendData) {
                 Rank.setText(friendData.getRankText());
-                Rank.setTextColor(friendData.getRankColor());
+                Rank.setTextColor(friendData.getRankColor(getContext()));
 
                 LOLRank Enum = friendData.getRank();
                 Drawable drawable = friendData.getRankGraphic(getActivity());

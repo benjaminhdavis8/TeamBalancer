@@ -17,7 +17,7 @@ public class FriendsList {
         friendsList.add(new Friend("Olock", LOLRank.Challenger));
         friendsList.add(new Friend("ddog", LOLRank.Diamond1));
         friendsList.add(new Friend("Cheeser",LOLRank.Platinum2));
-        friendsList.add(new Friend("Aragon", LOLRank.Bronze1));
+        friendsList.add(new Friend("Aragon", LOLRank.Gold3));
         friendsList.add(new Friend("Destruction", LOLRank.Bronze2));
         friendsList.add(new Friend("Trident"));
         friendsList.add(new Friend("Belthazar", LOLRank.Bronze3));

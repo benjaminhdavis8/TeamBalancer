@@ -20,6 +20,7 @@ https://material.io/tools/icons/?icon=arrow_forward&style=baseline
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimaryTint"
+            android:paddingTop="8dp"
             >
 
             <EditText
@@ -40,14 +41,6 @@ https://material.io/tools/icons/?icon=arrow_forward&style=baseline
                 android:text=""
                 android:hint="Search Summoner" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                android:text="0/10"/>
         </LinearLayout>
 
         <LinearLayout

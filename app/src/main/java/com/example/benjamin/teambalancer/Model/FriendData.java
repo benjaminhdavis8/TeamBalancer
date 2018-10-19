@@ -1,6 +1,7 @@
 package com.example.benjamin.teambalancer.Model;
 
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 public class FriendData implements Comparable<FriendData> {
@@ -12,11 +13,11 @@ public class FriendData implements Comparable<FriendData> {
     //Image personalImage
     //image rankImage
 
-    public FriendData(Friend source) {
+    public FriendData(Friend source, Context context) {
         RealOne = source;
         Username = source.getUsername();
         Rank = source.getRank().toString();
-        RankColor = source.getRankColor();
+        RankColor = source.getRankColor(context);
 
         Selected = false;
     }

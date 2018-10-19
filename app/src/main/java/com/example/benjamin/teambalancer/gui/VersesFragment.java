@@ -274,7 +274,7 @@ public class VersesFragment extends Fragment {
         text = new TextView(getActivity());
         text.setLayoutParams(params);
         text.setText(friend.getRank().toString());
-        text.setTextColor(friend.getRankColor());
+        text.setTextColor(friend.getRankColor(getContext()));
         text.setMaxLines(1);
         background.addView(text);
 

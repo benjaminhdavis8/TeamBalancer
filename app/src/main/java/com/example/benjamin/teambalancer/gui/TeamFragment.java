@@ -48,7 +48,7 @@ public class TeamFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        View view = inflater.inflate(R.layout.fragment_friends, container, false);
+        View view = inflater.inflate(R.layout.fragment_team, container, false);
         searchBox = view.findViewById(R.id.search_bar);
         RecyclerView rv = view.findViewById(R.id.friends_RV);
         LinearLayoutManager ll = new LinearLayoutManager(view.getContext());
@@ -120,23 +120,23 @@ public class TeamFragment extends Fragment {
     }
 
     private class FriendsRVAdapter extends  RecyclerView.Adapter<FriendsRVAdapter.ViewHolder> {
-        List<FriendData> dataList;
+        List<Friend> dataList;
         int NumSelected = 0;
 
         FriendsRVAdapter() {
             // debug constructor
             dataList = new ArrayList<>();
-            dataList.add(new FriendData(new Friend("Faker", LOLRank.Master)));
-            dataList.add(new FriendData(new Friend("Shwartz", LOLRank.Silver1)));
-            dataList.add(new FriendData(new Friend("US Economy", LOLRank.Diamond4)));
-            dataList.add(new FriendData(new Friend("Phoenix", LOLRank.Bronze5)));
-            dataList.add(new FriendData(new Friend("Olock", LOLRank.Challenger)));
-            dataList.add(new FriendData(new Friend("ddog", LOLRank.Diamond1)));
-            dataList.add(new FriendData(new Friend("Cheeser",LOLRank.Platinum2)));
-            dataList.add(new FriendData(new Friend("Aragon", LOLRank.Bronze1)));
-            dataList.add(new FriendData(new Friend("Destruction", LOLRank.Bronze2)));
-            dataList.add(new FriendData(new Friend("Trident")));
-            dataList.add(new FriendData(new Friend("Belthazar", LOLRank.Bronze3)));
+            dataList.add(new Friend("Faker", LOLRank.Master));
+            dataList.add(new Friend("Shwartz", LOLRank.Silver1));
+            dataList.add(new Friend("US Economy", LOLRank.Diamond4));
+            dataList.add(new Friend("Phoenix", LOLRank.Bronze5));
+            dataList.add(new Friend("Olock", LOLRank.Challenger));
+            dataList.add(new Friend("ddog", LOLRank.Diamond1));
+            dataList.add(new Friend("Cheeser",LOLRank.Platinum2));
+            dataList.add(new Friend("Aragon", LOLRank.Bronze1));
+            dataList.add(new Friend("Destruction", LOLRank.Bronze2));
+            dataList.add(new Friend("Trident"));
+            dataList.add(new Friend("Belthazar", LOLRank.Bronze3));
         }
 
         @NonNull
@@ -149,8 +149,8 @@ public class TeamFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-            holder.Username.setText(dataList.get(position).Username);
-            holder.Rank.setText(dataList.get(position).Rank);
+            holder.Username.setText(dataList.get(position).getUsername());
+            holder.Rank.setText(dataList.get(position).getRank().toString());
             holder.setIndex(position);
         }
 
@@ -161,9 +161,9 @@ public class TeamFragment extends Fragment {
 
         public List<Friend> getSelected() {
             List<Friend> ret = new ArrayList<>();
-            for (FriendData f : dataList) {
+            for (Friend f : dataList) {
                 if (f.getSelected()) {
-                    ret.add(f.getOriginal());
+                    ret.add(f);
                 }
             }
             return ret;
@@ -221,7 +221,7 @@ public class TeamFragment extends Fragment {
 
             void setIndex(final int Index) {
                 this.Index = Index;
-                Username.setText(dataList.get(Index).Username);
+                Username.setText(dataList.get(Index).getUsername());
                 setRank(dataList.get(Index));
                 item.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -248,9 +248,9 @@ public class TeamFragment extends Fragment {
                 });
             }
 
-            private void setRank(FriendData friendData) {
-                Rank.setText(friendData.Rank);
-                Rank.setTextColor(friendData.RankColor);
+            private void setRank(Friend friend) {
+                Rank.setText(friend.getRank().toString());
+                Rank.setTextColor(friend.getRankColor(getContext()));
             }
 
             void setBackgroundColor(int color) {

@@ -3,6 +3,7 @@ package com.example.benjamin.teambalancer.Model;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 
 import com.example.benjamin.teambalancer.R;
 
@@ -24,6 +25,7 @@ public class Friend implements Comparable<Friend> {
     private LOLRank Rank;
     private Drawable drawable;
     private Integer color;
+    private
     Boolean Selected;
 
     public Friend(String Username) {
@@ -71,7 +73,8 @@ public class Friend implements Comparable<Friend> {
         Selected = selected;
     }
 
-    public int getRankColor() {
+    public int getRankColor(Context context) {
+
         if (color != null)
             return color;
 
@@ -81,6 +84,7 @@ public class Friend implements Comparable<Friend> {
             Rank == LOLRank.Bronze4 ||
             Rank == LOLRank.Bronze5) {
             color = BRONZE;
+            color = ContextCompat.getColor(context, R.color.BRONZE);
         }
         else if(Rank == LOLRank.Silver1 ||
                 Rank == LOLRank.Silver2 ||
@@ -88,6 +92,7 @@ public class Friend implements Comparable<Friend> {
                 Rank == LOLRank.Silver4 ||
                 Rank == LOLRank.Silver5) {
             color = SILVER;
+            color = ContextCompat.getColor(context, R.color.SILVER);
         }
         else if(Rank == LOLRank.Gold1 ||
                 Rank == LOLRank.Gold2 ||
@@ -95,6 +100,7 @@ public class Friend implements Comparable<Friend> {
                 Rank == LOLRank.Gold4 ||
                 Rank == LOLRank.Gold5) {
             color = GOLD;
+            color = ContextCompat.getColor(context, R.color.GOLD);
         }
         else if(Rank == LOLRank.Diamond1 ||
                 Rank == LOLRank.Diamond2 ||
@@ -102,6 +108,7 @@ public class Friend implements Comparable<Friend> {
                 Rank == LOLRank.Diamond4 ||
                 Rank == LOLRank.Diamond5) {
             color = DIAMOND;
+            color = ContextCompat.getColor(context, R.color.DIAMOND);
         }
         else if(Rank == LOLRank.Platinum1 ||
                 Rank == LOLRank.Platinum2 ||
@@ -109,12 +116,15 @@ public class Friend implements Comparable<Friend> {
                 Rank == LOLRank.Platinum4 ||
                 Rank == LOLRank.Platinum5) {
             color = PLATINUM;
+            color = ContextCompat.getColor(context, R.color.PLATINUM);
         }
         else if (Rank == LOLRank.Challenger) {
             color = CHALLENGER;
+            color = ContextCompat.getColor(context, R.color.CHALLENGER);
         }
         else if (Rank == LOLRank.Master) {
             color = MASTER;
+            color = ContextCompat.getColor(context, R.color.MASTER);
         }
         else {
             color = BLACK;
