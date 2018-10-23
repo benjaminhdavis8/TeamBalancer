@@ -161,6 +161,8 @@ public class VersesFragment extends Fragment {
 
         for(int n = 0; n < 100; n++)
         {
+            team1MMR = 0;
+            team2MMR = 0;
             //Shuffle players and put on both teams
             Collections.shuffle(players, new Random());
             team1List = new ArrayList<>();

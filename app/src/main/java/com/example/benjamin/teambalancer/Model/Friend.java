@@ -19,6 +19,7 @@ public class Friend implements Comparable<Friend> {
     private final int MASTER = 0xffcc7f00;
 
     private final int BASE_MRR = 850;
+    private int MMR;
 
 
     private String Username;
@@ -28,15 +29,18 @@ public class Friend implements Comparable<Friend> {
     private
     Boolean Selected;
 
+
     public Friend(String Username) {
         this.Username = Username;
         Rank = LOLRank.UNRANKED;
+        MMR = BASE_MRR + (60 * (Rank.ordinal() - 1));
         Selected = false;
     }
 
     public Friend(String Username, LOLRank Rank) {
         this.Username = Username;
         this.Rank = Rank;
+        MMR = BASE_MRR + (60 * (Rank.ordinal() - 1));
         Selected = false;
     }
 
@@ -49,7 +53,6 @@ public class Friend implements Comparable<Friend> {
     }
 
     public int getMMR() {
-        int MMR = BASE_MRR + (60 * (Rank.ordinal() - 1));
         return MMR;
     }
 
