@@ -21,12 +21,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.benjamin.teambalancer.MainActivity;
 import com.example.benjamin.teambalancer.Model.Friend;
-import com.example.benjamin.teambalancer.Model.FriendData;
-import com.example.benjamin.teambalancer.Model.FriendsList;
 import com.example.benjamin.teambalancer.Model.LOLRank;
 import com.example.benjamin.teambalancer.R;
 
@@ -83,7 +79,7 @@ public class FriendsFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         if(edit.getText().length() > 0) {
-                            adapter.dataList.add(0, new Friend(edit.getText().toString()));
+                            adapter.add(0, new Friend(edit.getText().toString()));
                             adapter.notifyDataSetChanged();
                             edit.setText("");
                         }
@@ -103,7 +99,7 @@ public class FriendsFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                adapter.setFilterString(s.toString());
             }
 
             @Override
@@ -132,14 +128,10 @@ public class FriendsFragment extends Fragment {
     }
 
 
-    private class FriendsRVAdapter extends  RecyclerView.Adapter<FriendsRVAdapter.ViewHolder> {
-        List<Friend> dataList;
-        int NumSelected = 0;
+//**Adapter****************************************************************************************
 
-        FriendsRVAdapter() {
-            // debug constructor
-            dataList = FriendsList.getInstance().getFriends();
-        }
+    private class FriendsRVAdapter extends  FilterFriendRVAdapter<FriendsRVAdapter.ViewHolder> {
+        int NumSelected = 0;
 
         @NonNull
         @Override
@@ -151,19 +143,15 @@ public class FriendsFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-            holder.Username.setText(dataList.get(position).getUsername());
-            holder.Rank.setText(dataList.get(position).getRankText());
+            holder.Username.setText(filteredList.get(position).getUsername());
+            holder.Rank.setText(filteredList.get(position).getRankText());
             holder.setIndex(position);
-        }
-
-        @Override
-        public int getItemCount() {
-            return dataList.size();
         }
 
         public List<Friend> getSelected() {
             List<Friend> ret = new ArrayList<>();
-            for (Friend f : dataList) {
+            setFilterString("");
+            for (Friend f : filteredList) {
                 if (f.getSelected()) {
                     ret.add(f);
                 }
@@ -176,7 +164,7 @@ public class FriendsFragment extends Fragment {
             final TextView Username;
             final TextView Rank;
             final ImageView RankGraphic;
-            final ImageButton deleteButton;
+            final Button deleteButton;
             int Index;
             //ImageView PersonalImage;
             //ImageView RankImage;
@@ -211,7 +199,7 @@ public class FriendsFragment extends Fragment {
                             delete.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                dataList.remove(Index);
+                                remove(Index);
                                 notifyDataSetChanged();
                                 dialog.cancel();
                             }
@@ -225,8 +213,8 @@ public class FriendsFragment extends Fragment {
 
             void setIndex(final int Index) {
                 this.Index = Index;
-                Username.setText(dataList.get(Index).getUsername());
-                setRank(dataList.get(Index));
+                Username.setText(filteredList.get(Index).getUsername());
+                setRank(filteredList.get(Index));
             }
 
             private void setRank(Friend friend) {

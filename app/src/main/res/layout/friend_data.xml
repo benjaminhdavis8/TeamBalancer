@@ -31,6 +31,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="3"
+        android:layout_gravity="center"
         android:orientation="vertical"
         >
 
@@ -58,10 +59,9 @@
         android:layout_weight="1"
         >
 
-        <ImageButton
+        <Button
             android:id="@+id/delete_button"
-            android:src="@drawable/delete"
-            android:scaleType="fitXY"
+            android:text="X"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginEnd="10dp"

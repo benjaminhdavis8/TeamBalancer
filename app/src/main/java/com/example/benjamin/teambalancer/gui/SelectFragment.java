@@ -79,7 +79,7 @@ public class SelectFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                adapter.setFilterString(s.toString());
             }
 
             @Override
@@ -116,14 +116,13 @@ public class SelectFragment extends Fragment {
         }
     }
 
-    private class FriendsRVAdapter extends  RecyclerView.Adapter<FriendsRVAdapter.ViewHolder> {
-        List<Friend> dataList;
+    private class FriendsRVAdapter extends FilterFriendRVAdapter<FriendsRVAdapter.ViewHolder> {
         int NumSelected = 0;
 
         FriendsRVAdapter() {
             // debug constructor
-            dataList = FriendsList.getInstance().getFriends();
-            for (Friend f: dataList) {
+            super();
+            for (Friend f: filteredList) {
                 f.setSelected(false);
             }
         }
@@ -138,20 +137,15 @@ public class SelectFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-            holder.Username.setText(dataList.get(position).getUsername());
-            holder.Rank.setText(dataList.get(position).getRankText());
+            holder.Username.setText(filteredList.get(position).getUsername());
+            holder.Rank.setText(filteredList.get(position).getRankText());
             holder.setIndex(position);
             holder.setBGColor();
         }
 
-        @Override
-        public int getItemCount() {
-            return dataList.size();
-        }
-
         public List<Friend> getSelected() {
             List<Friend> ret = new ArrayList<>();
-            for (Friend f : dataList) {
+            for (Friend f : filteredList) {
                 if (f.getSelected()) {
                     ret.add(f);
                 }
@@ -178,7 +172,7 @@ public class SelectFragment extends Fragment {
             }
 
             void setBGColor() {
-                boolean selected = dataList.get(Index).getSelected();
+                boolean selected = filteredList.get(Index).getSelected();
                 if (selected) {
                     setBackgroundColor(getContext().getResources().getColor(R.color.colorPrimaryTint2));
                 } else {
@@ -188,18 +182,18 @@ public class SelectFragment extends Fragment {
 
             void setIndex(final int Index) {
                 this.Index = Index;
-                Username.setText(dataList.get(Index).getUsername());
-                setRank(dataList.get(Index));
+                Username.setText(filteredList.get(Index).getUsername());
+                setRank(filteredList.get(Index));
                 item.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        boolean selected = dataList.get(Index).getSelected();
+                        boolean selected = filteredList.get(Index).getSelected();
                         if (!selected) {
                             if (NumSelected < MAX_PLAYERS) {
                                 setBackgroundColor(getContext().getResources().getColor(R.color.colorPrimaryTint2));
                                 NumSelected++;
                                 selectedCount.setText(NumSelected + "/10");
-                                dataList.get(Index).setSelected(true);
+                                filteredList.get(Index).setSelected(true);
                             }
                             else {
                                 Toast.makeText(getActivity(), "Too many players selected", Toast.LENGTH_SHORT).show();
@@ -209,7 +203,7 @@ public class SelectFragment extends Fragment {
                             setBackgroundColor(getContext().getResources().getColor(R.color.background));
                             NumSelected--;
                             selectedCount.setText(NumSelected + "/10");
-                            dataList.get(Index).setSelected(false);
+                            filteredList.get(Index).setSelected(false);
                         }
 
                         setActionButtonVisible();
