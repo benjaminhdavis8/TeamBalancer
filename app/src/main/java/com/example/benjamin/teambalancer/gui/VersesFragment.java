@@ -2,6 +2,7 @@ package com.example.benjamin.teambalancer.gui;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -28,6 +29,8 @@ public class VersesFragment extends Fragment {
     private List<Friend> bestTeam1;
     private List<Friend> bestTeam2;
 
+    ConstraintLayout backArrowLayout;
+
     private List<Friend> players;
 
 
@@ -44,6 +47,7 @@ public class VersesFragment extends Fragment {
         team1List = new ArrayList<>();
         team2List = new ArrayList<>();
 
+        backArrowLayout = getActivity().findViewById(R.id.backarrow_layout);
 
         players = ((MainActivity)getActivity()).getPlayerList();;
 
@@ -71,6 +75,9 @@ public class VersesFragment extends Fragment {
     public void onResume(){
         super.onResume();
 
+        backArrowLayout.setVisibility(View.VISIBLE);
+        backArrowLayout.setClickable(true);
+
 //        Balance(players);
 //
         newBalance2(players);
@@ -86,6 +93,14 @@ public class VersesFragment extends Fragment {
 //                });
 //            }
 //        }).start();
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+
+        backArrowLayout.setClickable(false);
+        backArrowLayout.setVisibility(View.GONE);
     }
 
     private void Balance(List<Friend> players) {

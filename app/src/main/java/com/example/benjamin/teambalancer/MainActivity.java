@@ -64,11 +64,6 @@ public class MainActivity extends AppCompatActivity {
         setFragment(fragment);
     }
 
-    public void switchToTeamFragment() {
-        Fragment fragment = new TeamFragment();
-        setFragment(fragment);
-    }
-
     public void switchToVersesFragment() {
         Fragment fragment = new VersesFragment();
         setFragment(fragment);

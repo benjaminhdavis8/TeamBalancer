@@ -123,8 +123,8 @@ public class FriendsFragment extends Fragment {
     public void onPause(){
         super.onPause();
 
-        backArrowLayout.setVisibility(View.INVISIBLE);
         backArrowLayout.setClickable(false);
+        backArrowLayout.setVisibility(View.GONE);
     }
 
 
