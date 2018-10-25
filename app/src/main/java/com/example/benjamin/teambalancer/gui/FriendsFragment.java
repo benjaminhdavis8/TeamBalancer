@@ -88,8 +88,8 @@ public class FriendsFragment extends Fragment {
                 final EditText edit = dialog.findViewById(R.id.edit);
                 edit.setText(searchBox.getText());
 
-                final View forum = dialog.findViewById(R.id.add_friend_forum);
-                final View spinner = dialog.findViewById(R.id.progressBar1);
+                //final View forum = dialog.findViewById(R.id.add_friend_forum);
+                //final View spinner = dialog.findViewById(R.id.progressBar1);
 
                 final EditText editAfter = afterDialog.findViewById(R.id.edit);
 
@@ -230,38 +230,40 @@ public class FriendsFragment extends Fragment {
                     public void onClick(View v) {
                         final Activity activity = getActivity();
                         if(edit.getText().length() > 0) {
+
                             //Mason's
                             summonerName = edit.getText().toString();
                             summonerName = summonerName.replaceAll("\\s+", "%20");
                             edit.setText("");
                             dialog.cancel();
                             cardDialog.show();
-                            //Ben's
-                            cancel.setVisibility(View.VISIBLE);
-                            searchBox.setText("");
-                            adapter.add(0, new Friend(edit.getText().toString()));
-                            adapter.notifyDataSetChanged();
-                            edit.setText("");
-                            forum.setVisibility(View.GONE);
-                            spinner.setVisibility(View.VISIBLE);
-                            final Runnable restore = new Runnable() {
-                                @Override
-                                public void run() {
-                                    forum.setVisibility(View.VISIBLE);
-                                    spinner.setVisibility(View.GONE);
-                                }
-                            };
 
-                            new Thread(restore) {
-                                public void run() {
-                                    try {
-                                        Thread.sleep(600); //TODO: replace this with api calls
-                                        activity.runOnUiThread(restore);
-                                    } catch (InterruptedException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }.start();
+                            //Ben's
+//                            cancel.setVisibility(View.VISIBLE);
+//                            searchBox.setText("");
+//                            adapter.add(0, new Friend(edit.getText().toString()));
+//                            adapter.notifyDataSetChanged();
+//                            edit.setText("");
+//                            forum.setVisibility(View.GONE);
+//                            spinner.setVisibility(View.VISIBLE);
+//                            final Runnable restore = new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    forum.setVisibility(View.VISIBLE);
+//                                    spinner.setVisibility(View.GONE);
+//                                }
+//                            };
+//
+//                            new Thread(restore) {
+//                                public void run() {
+//                                    try {
+//                                        Thread.sleep(600); //TODO: replace this with api calls
+//                                        activity.runOnUiThread(restore);
+//                                    } catch (InterruptedException e) {
+//                                        e.printStackTrace();
+//                                    }
+//                                }
+//                            }.start();
 
                         }
                     }
