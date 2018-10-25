@@ -1,5 +1,6 @@
 package com.example.benjamin.teambalancer.gui;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -66,7 +68,11 @@ public class FriendsFragment extends Fragment {
                 final EditText edit = dialog.findViewById(R.id.edit);
                 edit.setText(searchBox.getText());
 
-                Button cancel = dialog.findViewById(R.id.cancel_button);
+                final View forum = dialog.findViewById(R.id.add_friend_forum);
+                final View spinner = dialog.findViewById(R.id.progressBar1);
+
+                final Button cancel = dialog.findViewById(R.id.cancel_button);
+                cancel.setVisibility(View.GONE);
                 cancel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -78,10 +84,34 @@ public class FriendsFragment extends Fragment {
                 save.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        final Activity activity = getActivity();
                         if(edit.getText().length() > 0) {
+                            cancel.setVisibility(View.VISIBLE);
+                            searchBox.setText("");
                             adapter.add(0, new Friend(edit.getText().toString()));
                             adapter.notifyDataSetChanged();
                             edit.setText("");
+                            forum.setVisibility(View.GONE);
+                            spinner.setVisibility(View.VISIBLE);
+                            final Runnable restore = new Runnable() {
+                                @Override
+                                public void run() {
+                                    forum.setVisibility(View.VISIBLE);
+                                    spinner.setVisibility(View.GONE);
+                                }
+                            };
+
+                            new Thread(restore) {
+                                public void run() {
+                                    try {
+                                        Thread.sleep(600); //TODO: replace this with api calls
+                                        activity.runOnUiThread(restore);
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }.start();
+
                         }
                     }
                 });
@@ -143,8 +173,6 @@ public class FriendsFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-            holder.Username.setText(filteredList.get(position).getUsername());
-            holder.Rank.setText(filteredList.get(position).getRankText());
             holder.setIndex(position);
         }
 
