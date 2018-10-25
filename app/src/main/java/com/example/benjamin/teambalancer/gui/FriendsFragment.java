@@ -1,6 +1,7 @@
 package com.example.benjamin.teambalancer.gui;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +23,21 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.benjamin.teambalancer.Model.Friend;
 import com.example.benjamin.teambalancer.Model.LOLRank;
 import com.example.benjamin.teambalancer.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +51,7 @@ public class FriendsFragment extends Fragment {
     ImageView backArrow;
     ConstraintLayout backArrowLayout;
     EditText searchBox;
+    final String APIKey = "RGAPI-4dae66e7-fa7f-4c31-beb0-56b21a35d3d9";
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,33 +74,170 @@ public class FriendsFragment extends Fragment {
         addButton.setVisibility(View.VISIBLE);
         addButton.setOnClickListener(new View.OnClickListener() {
             final Dialog dialog = new Dialog(getActivity());
+            final Dialog cardDialog = new Dialog(getActivity());
+            final Dialog afterDialog = new Dialog(getActivity());
+            String summonerName;
             @Override
             public void onClick(View v) {
                 dialog.setContentView(R.layout.add_friend_dialog);
+                cardDialog.setContentView(R.layout.add_friend_card_dialog);
+                afterDialog.setContentView(R.layout.add_friend_after_dialog);
+
                 final EditText edit = dialog.findViewById(R.id.edit);
                 edit.setText(searchBox.getText());
 
-                Button cancel = dialog.findViewById(R.id.cancel_button);
-                cancel.setOnClickListener(new View.OnClickListener() {
+                final EditText editAfter = afterDialog.findViewById(R.id.edit);
+
+                final Button cancel = afterDialog.findViewById(R.id.cancel_button);
+                final Button addAfter = afterDialog.findViewById(R.id.save_button);
+                afterDialog.setOnShowListener(new DialogInterface.OnShowListener() {
                     @Override
-                    public void onClick(View v) {
-                        dialog.cancel();
+                    public void onShow(DialogInterface dialog) {
+                        addAfter.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if(editAfter.getText().length() > 0) {
+//                                    adapter.add(0, new Friend(edit.getText().toString()));
+//                                    adapter.notifyDataSetChanged();
+                                    summonerName = editAfter.getText().toString();
+                                    summonerName = summonerName.replaceAll("\\s+", "%20");
+                                    editAfter.setText("");
+                                    afterDialog.cancel();
+                                    cardDialog.show();
+                                }
+                            }
+                        });
+
+                        cancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                afterDialog.cancel();
+                            }
+                        });
                     }
                 });
 
-                Button save = dialog.findViewById(R.id.save_button);
-                save.setOnClickListener(new View.OnClickListener() {
+                final TextView cardText = (TextView) cardDialog.findViewById(R.id.hint);
+                cardDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                    @Override
+                    public void onShow(DialogInterface dialog) {
+
+                        // Instantiate the RequestQueue.
+                        RequestQueue queue1 = Volley.newRequestQueue(getActivity());
+                        String url ="https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/" + summonerName + "?api_key=" + APIKey;
+
+                        // Request a string response from the provided URL.
+                        StringRequest summonerRequest = new StringRequest(Request.Method.GET, url,
+                                new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+                                        // Display the first 500 characters of the response string.
+                                        cardText.setText("Response is: "+ response);
+                                        try {
+                                            JSONObject respJSONObj = new JSONObject(response);
+                                            final String summonerID = respJSONObj.getString("id");
+                                            summonerName = respJSONObj.getString("name");
+                                            //int maxItems = result.getInt("end");
+                                            //JSONArray resultList = result.getJSONArray("item");
+                                            cardText.setText("Response is: "+ response + summonerID);
+                                            // MAKE NEXT REQUEST.
+                                            RequestQueue queue2 = Volley.newRequestQueue(getActivity());
+                                            String url ="https://na1.api.riotgames.com/lol/league/v3/positions/by-summoner/" + summonerID + "?api_key=" + APIKey;
+                                            // Request a string response from the provided URL.
+                                            StringRequest queueRequest = new StringRequest(Request.Method.GET, url,
+                                                    new Response.Listener<String>() {
+                                                        @Override
+                                                        public void onResponse(String response) {
+                                                            // Display the first 500 characters of the response string.
+                                                            cardText.setText("Response is: "+ response);
+                                                            try {
+                                                                JSONArray queueArray = new JSONArray(response);
+                                                                JSONObject queueStat;
+                                                                String queueType, tier="", div="";
+                                                                LOLRank rank;
+                                                                for (int i=0; i<queueArray.length(); i++)
+                                                                {
+                                                                    queueStat = queueArray.getJSONObject(i);
+                                                                    queueType = queueStat.getString("queueType");
+                                                                    if (queueType.equals("RANKED_SOLO_5x5"))
+                                                                    {
+                                                                        tier = queueStat.getString("tier");
+                                                                        div = queueStat.getString("rank");
+                                                                    }
+                                                                }
+                                                                Friend summoner = new Friend(summonerName);
+                                                                if (tier != null && div != null) {
+                                                                    summoner.setRank(tier, div);
+                                                                }
+                                                                adapter.add(0, summoner);
+                                                                adapter.notifyDataSetChanged();
+                                                                summonerName = edit.getText().toString();
+                                                                //int maxItems = result.getInt("end");
+                                                                //JSONArray resultList = result.getJSONArray("item");
+                                                                cardText.setText("Response is: "+ response + summonerID);
+                                                            } catch (JSONException e) {
+                                                                Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                                                                cardDialog.cancel();
+                                                                afterDialog.show();
+                                                            }
+
+                                                            Log.d("API", "Both API calls succeeded!");
+                                                            cardDialog.cancel();
+                                                            afterDialog.show();
+
+                                                        }
+                                                    }, new Response.ErrorListener() {
+                                                @Override
+                                                public void onErrorResponse(VolleyError error) {
+                                                    cardText.setText("That didn't work!");
+                                                    cardDialog.cancel();
+                                                    afterDialog.show();
+                                                }
+                                            });
+
+                                            queue2.add(queueRequest);
+
+                                        } catch (JSONException e) {
+                                            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                                            cardDialog.cancel();
+                                            afterDialog.show();
+                                        }
+
+                                    }
+                                }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                cardText.setText("That didn't work!");
+                                cardDialog.cancel();
+                                afterDialog.show();
+                            }
+                        });
+
+// Add the request to the RequestQueue.
+                        queue1.add(summonerRequest);
+
+                    }
+                });
+
+                Button add = dialog.findViewById(R.id.save_button);
+                add.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if(edit.getText().length() > 0) {
-                            adapter.add(0, new Friend(edit.getText().toString()));
-                            adapter.notifyDataSetChanged();
+//                            adapter.add(0, new Friend(edit.getText().toString()));
+//                            adapter.notifyDataSetChanged();
+                            summonerName = edit.getText().toString();
+                            summonerName = summonerName.replaceAll("\\s+", "%20");
                             edit.setText("");
+                            dialog.cancel();
+                            cardDialog.show();
                         }
                     }
                 });
 
+
                 dialog.show();
+//                cardDialog.show();
                 }
             });
 

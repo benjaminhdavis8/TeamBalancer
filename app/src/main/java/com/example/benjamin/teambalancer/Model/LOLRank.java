@@ -4,7 +4,7 @@ import android.widget.LinearLayout;
 
 public enum LOLRank {
 
-    UNRANKED,
+    Unranked,
     Bronze5,
     Bronze4,
     Bronze3,
@@ -33,7 +33,6 @@ public enum LOLRank {
     Master,
     fake1,
     fake2,
-    fake3,
     Challenger;
 
     @Override

@@ -174,7 +174,7 @@ public class VersesFragment extends Fragment {
         int bestdiff = 99999;
         int currdiff = 0;
 
-        for(int n = 0; n < 100; n++)
+        for(int n = 0; n < 1000; n++)
         {
             team1MMR = 0;
             team2MMR = 0;

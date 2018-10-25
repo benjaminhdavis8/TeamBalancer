@@ -32,7 +32,7 @@ public class Friend implements Comparable<Friend> {
 
     public Friend(String Username) {
         this.Username = Username;
-        Rank = LOLRank.UNRANKED;
+        Rank = LOLRank.Unranked;
         MMR = BASE_MRR + (60 * (Rank.ordinal() - 1));
         Selected = false;
     }
@@ -61,6 +61,56 @@ public class Friend implements Comparable<Friend> {
     }
 
     public void setRank(LOLRank rank) {
+        Rank = rank;
+    }
+
+    public void setRank(String tier, String div)
+    {
+        LOLRank rank = LOLRank.Unranked;
+        switch(tier)
+        {
+            case "BRONZE":
+                rank = LOLRank.values()[LOLRank.Unranked.ordinal()+1];
+                break;
+            case "SILVER":
+                rank = LOLRank.values()[LOLRank.Unranked.ordinal()+6];
+                break;
+            case "GOLD":
+                rank = LOLRank.values()[LOLRank.Unranked.ordinal()+11];
+                break;
+            case "PLATINUM":
+                rank = LOLRank.values()[LOLRank.Unranked.ordinal()+16];
+                break;
+            case "DIAMOND":
+                rank = LOLRank.values()[LOLRank.Unranked.ordinal()+21];
+                break;
+            case "MASTER":
+                rank = LOLRank.values()[LOLRank.Unranked.ordinal()+26];
+                //don't break, but return since Master is div I
+                Rank = rank;
+                return;
+            case "CHALLENGER":
+                rank = LOLRank.values()[LOLRank.Unranked.ordinal()+29];
+                //don't break, but return since Challenger is div I
+                Rank = rank;
+                return;
+        }
+        switch(div)
+        {
+            case "IV":
+                rank = LOLRank.values()[rank.ordinal()+1];
+                break;
+            case "III":
+                rank = LOLRank.values()[rank.ordinal()+2];
+                break;
+            case "II":
+                rank = LOLRank.values()[rank.ordinal()+3];
+                break;
+            case "I":
+                rank = LOLRank.values()[rank.ordinal()+4];
+                break;
+
+        }
         Rank = rank;
     }
 
@@ -123,7 +173,7 @@ public class Friend implements Comparable<Friend> {
         }
         else if (Rank == LOLRank.Challenger) {
             color = CHALLENGER;
-            color = ContextCompat.getColor(context, R.color.CHALLENGER);
+            color = ContextCompat.getColor(context, R.color.CHALLENGER2);
         }
         else if (Rank == LOLRank.Master) {
             color = MASTER;
@@ -182,7 +232,7 @@ public class Friend implements Comparable<Friend> {
             drawable = context.getResources().getDrawable(R.drawable.master);
         }
         else {
-            drawable = context.getResources().getDrawable(R.drawable.white);
+            drawable = context.getResources().getDrawable(R.drawable.unranked);
         }
         return drawable;
     }

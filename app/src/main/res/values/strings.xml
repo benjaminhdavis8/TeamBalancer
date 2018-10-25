@@ -4,7 +4,8 @@
     <string name="verses_title">VS</string>
     <string name="team_1">Team 1</string>
     <string name="team_2">Team 2</string>
-    <string name="add_hint">Enter your friend\'s League of Legends Username</string>
+    <string name="add_hint">Enter your friend\'s League of Legends Summoner Name</string>
+    <string name="add">Add</string>
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
     <string name="next">Next</string>
