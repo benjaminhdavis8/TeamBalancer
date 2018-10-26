@@ -103,6 +103,8 @@ public class SelectFragment extends Fragment {
     public void onPause(){
         super.onPause();
 
+        searchBox.clearFocus();
+
         backArrowLayout.setClickable(false);
         backArrowLayout.setVisibility(View.GONE);
     }
@@ -137,10 +139,18 @@ public class SelectFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-            holder.Username.setText(filteredList.get(position).getUsername());
-            holder.Rank.setText(filteredList.get(position).getRankText());
             holder.setIndex(position);
-            holder.setBGColor();
+        }
+
+        @Override
+        public void NotifyDataSetChanged() {
+            if (!addable.getUsername().isEmpty()) {
+                filteredList.add(addable);
+            }
+            else if (filteredList.contains(addable)) {
+                filteredList.remove(addable);
+            }
+            super.NotifyDataSetChanged();
         }
 
         public List<Friend> getSelected() {
@@ -157,10 +167,9 @@ public class SelectFragment extends Fragment {
             final LinearLayout item;
             final TextView Username;
             final TextView Rank;
+            //ImageView PersonalImage;
             final ImageView RankGraphic;
             int Index;
-            //ImageView PersonalImage;
-            //ImageView RankImage;
 
             ViewHolder(View itemView) {
                 super(itemView);
@@ -183,7 +192,32 @@ public class SelectFragment extends Fragment {
             void setIndex(final int Index) {
                 this.Index = Index;
                 Username.setText(filteredList.get(Index).getUsername());
+
+                if (filteredList.get(Index).equals(addable)) {
+                    setBackgroundColor(getContext().getResources().getColor(R.color.gray));
+                    Rank.setVisibility(View.INVISIBLE);
+                    RankGraphic.setVisibility(View.INVISIBLE);
+                    item.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (NumSelected < MAX_PLAYERS) {
+                                addable.setSelected(true);
+                                NumSelected++;
+                            }
+                            String username = addable.getUsername();
+                            searchBox.setText("");
+                            clearFilterString();
+                            addable.setUsername(username.substring(4, username.length()-1));
+                            filteredList.remove(addable);
+                            adapter.add(0, addable);
+                            addable = new Friend("");
+                        }
+                    });
+                    return;
+                }
+
                 setRank(filteredList.get(Index));
+                setBGColor();
                 item.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -212,11 +246,13 @@ public class SelectFragment extends Fragment {
             }
 
             private void setRank(Friend friendData) {
+                Rank.setVisibility(View.VISIBLE);
                 Rank.setText(friendData.getRankText());
                 Rank.setTextColor(friendData.getRankColor(getContext()));
 
                 LOLRank Enum = friendData.getRank();
                 Drawable drawable = friendData.getRankGraphic(getActivity());
+                RankGraphic.setVisibility(View.VISIBLE);
                 RankGraphic.setImageDrawable(drawable);
             }
 

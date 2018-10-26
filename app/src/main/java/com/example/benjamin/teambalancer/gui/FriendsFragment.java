@@ -9,7 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -21,7 +20,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -88,8 +86,8 @@ public class FriendsFragment extends Fragment {
                 final EditText edit = dialog.findViewById(R.id.edit);
                 edit.setText(searchBox.getText());
 
-                //final View forum = dialog.findViewById(R.id.add_friend_forum);
-                //final View spinner = dialog.findViewById(R.id.progressBar1);
+                final View forum = dialog.findViewById(R.id.add_friend_forum);
+                final View spinner = dialog.findViewById(R.id.progressBar1);
 
                 final EditText editAfter = afterDialog.findViewById(R.id.edit);
 
@@ -102,8 +100,8 @@ public class FriendsFragment extends Fragment {
                             @Override
                             public void onClick(View v) {
                                 if(editAfter.getText().length() > 0) {
-//                                    adapter.add(0, new Friend(edit.getText().toString()));
-//                                    adapter.notifyDataSetChanged();
+                                    adapter.add(0, new Friend(edit.getText().toString()));
+                                    adapter.notifyDataSetChanged();
                                     summonerName = editAfter.getText().toString();
                                     summonerName = summonerName.replaceAll("\\s+", "%20");
                                     editAfter.setText("");
@@ -239,11 +237,11 @@ public class FriendsFragment extends Fragment {
                             cardDialog.show();
 
                             //Ben's
-//                            cancel.setVisibility(View.VISIBLE);
-//                            searchBox.setText("");
+                            cancel.setVisibility(View.VISIBLE);
+                            searchBox.setText("");
+                            edit.setText("");
 //                            adapter.add(0, new Friend(edit.getText().toString()));
 //                            adapter.notifyDataSetChanged();
-//                            edit.setText("");
 //                            forum.setVisibility(View.GONE);
 //                            spinner.setVisibility(View.VISIBLE);
 //                            final Runnable restore = new Runnable() {
@@ -307,6 +305,8 @@ public class FriendsFragment extends Fragment {
     public void onPause(){
         super.onPause();
 
+        searchBox.clearFocus();
+
         backArrowLayout.setClickable(false);
         backArrowLayout.setVisibility(View.GONE);
     }
@@ -327,8 +327,6 @@ public class FriendsFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-            holder.Username.setText(filteredList.get(position).getUsername());
-            holder.Rank.setText(filteredList.get(position).getRankText());
             holder.setIndex(position);
         }
 

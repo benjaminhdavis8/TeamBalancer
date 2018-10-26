@@ -12,18 +12,34 @@ abstract public class FilterFriendRVAdapter<T extends RecyclerView.ViewHolder> e
     private List<Friend> dataList;
     List<Friend> filteredList;
     String filterString;
+    public Friend addable;
 
     FilterFriendRVAdapter() {
         // debug constructor
         dataList = FriendsList.getInstance().getFriends();
         filteredList = new ArrayList<>();
         filterString = "";
+        addable = new Friend("");
         filter();
     }
 
     public void setFilterString(String s) {
         this.filterString = s.toLowerCase();
+        if (s.equals("")) {
+            addable.setUsername("");
+        }
+        else {
+            addable.setUsername("add " + filterString + "?");
+        }
         filter();
+    }
+
+    public String getFilterString() {
+        return filterString;
+    }
+
+    public void clearFilterString() {
+        this.filterString = "";
     }
 
     @Override
@@ -39,6 +55,10 @@ abstract public class FilterFriendRVAdapter<T extends RecyclerView.ViewHolder> e
                 filteredList.add(f);
             }
         }
+        NotifyDataSetChanged();
+    }
+
+    public void NotifyDataSetChanged() {
         notifyDataSetChanged();
     }
 

@@ -8,6 +8,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -225,25 +226,33 @@ public class VersesFragment extends Fragment {
      *
      * The xml would look like this
      *
+        <LinearLayout
+            android:id="@+id/root"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
             <LinearLayout
+                android:id="@+id/card"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/colorPrimaryTint"
+                android:layout_marginBottom="0dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="5dp"
+                android:paddingTop="5dp"
+                android:paddingRight="5dp"
+                android:paddingBottom="5dp">
 
                 <LinearLayout
+                    android:id="@+id/text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:background="@color/colorPrimaryTint"
-                    android:layout_marginBottom="0dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginStart="0dp"
-                    android:layout_marginTop="10dp"
-                    android:paddingLeft="5dp"
-                    android:paddingTop="5dp"
-                    android:paddingRight="5dp"
-                    android:paddingBottom="5dp">
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/vs_username"
@@ -259,43 +268,87 @@ public class VersesFragment extends Fragment {
                         android:text="rank"
                         android:maxLines="1"
                         android:textColor="@android:color/darker_gray" />
-
                 </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/rank_image"
+                    android:src="@drawable/bronzei"
+                    android:scaleType="fitXY"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginLeft="15dp"/>
+
             </LinearLayout>
+        </LinearLayout>
      *
      */
     private void addPlayer(ViewGroup team, Friend friend) {
-        LinearLayout view = new LinearLayout(getActivity());
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0);
+        LinearLayout.LayoutParams params;
+
+        LinearLayout root = new LinearLayout(getActivity());
+        params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0);
         params.weight = 1;
-        view.setOrientation(LinearLayout.HORIZONTAL);
-        view.setLayoutParams(params);
+        root.setOrientation(LinearLayout.HORIZONTAL);
+        root.setLayoutParams(params);
 
-        LinearLayout background = new LinearLayout(getActivity());
-        params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.setMargins(10, 0, 10, 0);
-        params.gravity= Gravity.CENTER_VERTICAL | Gravity.START;
-        background.setLayoutParams(params);
-        background.setBackgroundColor(getContext().getResources().getColor(R.color.colorPrimaryTint));
-        background.setOrientation(LinearLayout.VERTICAL);
-        background.setPadding(5, 10, 5, 20);
+        {
+            LinearLayout card = new LinearLayout(getActivity());
+            params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
+            params.setMargins(10, 0, 10, 0);
+            params.weight = 2;
+            params.gravity = Gravity.CENTER_VERTICAL | Gravity.START;
+            card.setLayoutParams(params);
+            card.setBackgroundColor(getContext().getResources().getColor(R.color.colorPrimaryTint));
+            card.setOrientation(LinearLayout.HORIZONTAL);
+            card.setPadding(5, 10, 5, 20);
 
-        params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        TextView text = new TextView(getActivity());
-        text.setLayoutParams(params);
-        text.setText(friend.getUsername());
-        text.setMaxLines(1);
-        background.addView(text);
+            {
+                LinearLayout text = new LinearLayout(getActivity());
+                params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                text.setLayoutParams(params);
+                text.setOrientation(LinearLayout.VERTICAL);
 
-        params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        text = new TextView(getActivity());
-        text.setLayoutParams(params);
-        text.setText(friend.getRank().toString());
-        text.setTextColor(friend.getRankColor(getContext()));
-        text.setMaxLines(1);
-        background.addView(text);
+                {
+                    params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    TextView username = new TextView(getActivity());
+                    username.setLayoutParams(params);
+                    username.setText(friend.getUsername());
+                    username.setMaxLines(1);
 
-        view.addView(background);
-        team.addView(view);
+                    text.addView(username);
+                }
+
+                {
+                    params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    TextView rank = new TextView(getActivity());
+                    rank.setLayoutParams(params);
+                    rank.setText(friend.getRank().toString());
+                    rank.setTextColor(friend.getRankColor(getContext()));
+                    rank.setMaxLines(1);
+
+                    text.addView(rank);
+                }
+
+                card.addView(text);
+            }
+            {
+                ImageView rankImage = new ImageView(getActivity());
+                params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT);
+                params.setMargins(5, 0, 5, 0);
+                params.weight = 1;
+                rankImage.setLayoutParams(params);
+                rankImage.setImageDrawable(friend.getRankGraphic(getActivity()));
+                rankImage.setScaleType(ImageView.ScaleType.FIT_XY);
+                rankImage.setAdjustViewBounds(false);
+
+                card.addView(rankImage);
+            }
+
+            root.addView(card);
+        }
+        team.addView(root);
     }
 }

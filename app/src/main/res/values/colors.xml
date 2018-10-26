@@ -21,4 +21,5 @@
     <color name="black">#020202</color>
 
     <color name="background">#FFFFFF</color>
+    <color name="gray">#D3D3D3D3</color>
 </resources>
