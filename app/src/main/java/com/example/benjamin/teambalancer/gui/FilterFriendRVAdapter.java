@@ -11,8 +11,8 @@ import java.util.List;
 abstract public class FilterFriendRVAdapter<T extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<T> {
     private List<Friend> dataList;
     List<Friend> filteredList;
-    String filterString;
-    public Friend addable;
+    private String filterString;
+    Friend addable;
 
     FilterFriendRVAdapter() {
         // debug constructor
@@ -38,7 +38,7 @@ abstract public class FilterFriendRVAdapter<T extends RecyclerView.ViewHolder> e
         return filterString;
     }
 
-    public void clearFilterString() {
+    void clearFilterString() {
         this.filterString = "";
     }
 
@@ -62,12 +62,15 @@ abstract public class FilterFriendRVAdapter<T extends RecyclerView.ViewHolder> e
         notifyDataSetChanged();
     }
 
-    public void remove(int i) {
+    void remove(int i) {
         dataList.remove(i);
         filter();
     }
 
     public void add(int index, Friend friend) {
+        if (friend.getUsername().isEmpty()) {
+            return;
+        }
         dataList.add(index, friend);
         filter();
     }
