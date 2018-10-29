@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TeamBalancer</string>
+    <string name="app_name">LoL Balance</string>
     <string name="friends_list_header">Friends List</string>
     <string name="verses_title">VS</string>
     <string name="team_1">Team 1</string>
