@@ -51,7 +51,7 @@ public class FriendsFragment extends Fragment {
     ImageView backArrow;
     ConstraintLayout backArrowLayout;
     EditText searchBox;
-    final String APIKey = "RGAPI-4dae66e7-fa7f-4c31-beb0-56b21a35d3d9";
+    final String APIKey = "RGAPI-6e45f814-0d90-4b9d-a000-d35e07fc6508";
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
