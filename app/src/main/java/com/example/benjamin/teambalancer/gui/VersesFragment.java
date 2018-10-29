@@ -3,7 +3,9 @@ package com.example.benjamin.teambalancer.gui;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.support.v4.app.Fragment;
+import android.text.InputFilter;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -287,6 +289,7 @@ public class VersesFragment extends Fragment {
      */
     private void addPlayer(ViewGroup team, Friend friend) {
         LinearLayout.LayoutParams params;
+        ConstraintLayout.LayoutParams paramsCL;
 
         LinearLayout root = new LinearLayout(getActivity());
         params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0);
@@ -315,8 +318,16 @@ public class VersesFragment extends Fragment {
                     params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                     TextView username = new TextView(getActivity());
                     username.setLayoutParams(params);
+                    int maxLength = 5;
+//                    InputFilter[] fArray = new InputFilter[1];
+//                    fArray[0] = new InputFilter.LengthFilter(maxLength);
+//                    username.setFilters(fArray);
+                    username.setEms(maxLength);
+                    username.setMaxLines(2);
                     username.setText(friend.getUsername());
-                    username.setMaxLines(1);
+
+
+
 
                     text.addView(username);
                 }
@@ -335,16 +346,30 @@ public class VersesFragment extends Fragment {
                 card.addView(text);
             }
             {
-                ImageView rankImage = new ImageView(getActivity());
-                params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT);
-                params.setMargins(5, 0, 5, 0);
-                params.weight = 1;
-                rankImage.setLayoutParams(params);
-                rankImage.setImageDrawable(friend.getRankGraphic(getActivity()));
-                rankImage.setScaleType(ImageView.ScaleType.FIT_XY);
-                rankImage.setAdjustViewBounds(false);
+                ConstraintLayout imageCL = new ConstraintLayout(getActivity());
+                paramsCL = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.MATCH_PARENT);
+                imageCL.setLayoutParams(paramsCL);
 
-                card.addView(rankImage);
+                {
+
+                    ImageView rankImage = new ImageView(getActivity());
+                    params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                    params.setMargins(5, 0, 5, 0);
+                    params.weight = 1;
+                    rankImage.setLayoutParams(params);
+                    rankImage.setImageDrawable(friend.getRankGraphic(getActivity()));
+                    //rankImage.setScaleType(ImageView.ScaleType.FIT_XY);
+                    //rankImage.setAdjustViewBounds(false);
+
+                    ConstraintSet set = new ConstraintSet();
+                    set.clone(imageCL);
+                    set.setDimensionRatio(rankImage.getId(), "1:1");
+                    set.applyTo(imageCL);
+
+
+                    card.addView(rankImage);
+                }
+
             }
 
             root.addView(card);
