@@ -1,5 +1,6 @@
 package com.example.benjamin.teambalancer.gui;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
@@ -36,6 +37,8 @@ public class VersesFragment extends Fragment {
 
     private List<Friend> players;
 
+    private Typeface friz;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +52,8 @@ public class VersesFragment extends Fragment {
 
         team1List = new ArrayList<>();
         team2List = new ArrayList<>();
+
+        friz = Typeface.createFromAsset(getContext().getAssets(), "fonts/friz.otf");
 
         backArrowLayout = getActivity().findViewById(R.id.backarrow_layout);
 
@@ -318,6 +323,7 @@ public class VersesFragment extends Fragment {
                     params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                     TextView username = new TextView(getActivity());
                     username.setLayoutParams(params);
+                    username.setTypeface(friz);
                     int maxLength = 5;
 //                    InputFilter[] fArray = new InputFilter[1];
 //                    fArray[0] = new InputFilter.LengthFilter(maxLength);
@@ -336,6 +342,7 @@ public class VersesFragment extends Fragment {
                     params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                     TextView rank = new TextView(getActivity());
                     rank.setLayoutParams(params);
+                    rank.setTypeface(friz);
                     rank.setText(friend.getRank().toString());
                     rank.setTextColor(friend.getRankColor(getContext()));
                     rank.setMaxLines(1);

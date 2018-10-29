@@ -8,4 +8,12 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="FrizTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:textViewStyle">@style/FrizQuadrataTextViewStyle</item>
+    </style>
+
+    <style name="FrizQuadrataTextViewStyle" parent="android:Widget.TextView">
+        <item name="android:fontFamily">@font/friz</item>
+    </style>
+
 </resources>

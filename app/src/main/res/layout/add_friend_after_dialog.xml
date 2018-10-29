@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:textSize="22sp"
         android:padding="5dp"
+        android:theme="@style/FrizTheme"
         />
     <EditText
         android:id="@+id/edit"

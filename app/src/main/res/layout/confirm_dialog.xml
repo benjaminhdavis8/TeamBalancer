@@ -19,6 +19,7 @@
             android:maxLines="3"
             android:layout_gravity="center"
             android:gravity="center"
+            android:theme="@style/FrizTheme"
             />
 
     </LinearLayout>

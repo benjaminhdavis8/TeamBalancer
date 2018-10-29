@@ -14,7 +14,7 @@
         android:layout_marginTop="0dp"
         android:background="@color/colorPrimaryTint"
         android:orientation="horizontal"
-        android:padding="10dp"
+        android:padding="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -23,33 +23,42 @@
             android:layout_width="30dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="40dp"
-            android:layout_marginStart="40dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginStart="30dp"
             android:layout_weight="1"
             android:gravity="start"
-            android:text="@string/team_1" />
+            android:text="@string/team_1"
+            android:theme="@style/FrizTheme"
+            android:textSize="20sp"
+            />
 
         <TextView
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginEnd="60dp"
-            android:layout_marginLeft="60dp"
-            android:layout_marginRight="60dp"
-            android:layout_marginStart="60dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginStart="50dp"
             android:gravity="center"
-            android:text="@string/verses_title" />
+            android:text="@string/verses_title"
+            android:theme="@style/FrizTheme"
+            android:textSize="26sp"
+            />
 
         <TextView
             android:layout_width="30dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginEnd="40dp"
-            android:layout_marginRight="40dp"
-            android:gravity="end"
-            android:text="@string/team_2" />
+            android:layout_marginEnd="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_weight="1"
+            android:gravity="end|center_vertical"
+            android:text="@string/team_2"
+            android:theme="@style/FrizTheme"
+            android:textSize="20sp"
+            />
     </LinearLayout>
 
     <LinearLayout

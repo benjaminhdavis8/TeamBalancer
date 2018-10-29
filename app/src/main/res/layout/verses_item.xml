@@ -27,7 +27,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="1"
-            android:text="USERNAME" />
+            android:text="USERNAME"
+            android:theme="@style/FrizTheme"
+            />
 
         <TextView
             android:id="@+id/vs_rank"
@@ -35,7 +37,9 @@
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:text="rank"
-            android:textColor="@android:color/darker_gray" />
+            android:textColor="@android:color/darker_gray"
+            android:theme="@style/FrizTheme"
+            />
 
     </LinearLayout>
 </LinearLayout>
