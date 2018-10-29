@@ -30,10 +30,13 @@ public class Friend implements Comparable<Friend> {
     Boolean Selected;
 
 
+
     public Friend(String Username) {
         this.Username = Username;
         Rank = LOLRank.Unranked;
-        MMR = BASE_MRR + (60 * (Rank.ordinal() - 1));
+        int rankMult = (int) (1.3 * (Rank.ordinal() / LOLRank.values().length));
+        //rankMult = 1;
+        MMR = BASE_MRR + (60 * (rankMult) * (Rank.ordinal() - 1));
         Selected = false;
     }
 
