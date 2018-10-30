@@ -38,7 +38,8 @@ public class LOL_API {
     }
 
     // Request a string response from the provided URL.
-    public void getSummnerInfo(final String summonerName, final FilterFriendRVAdapter adapter, final ISpinnerDialog dialog) {
+    public void getSummnerInfo(String inName, final FilterFriendRVAdapter adapter, final ISpinnerDialog dialog) {
+        final String summonerName = inName.replaceAll("\\s+", "%20");
 
         // Instantiate the RequestQueue.
         RequestQueue queue1 = Volley.newRequestQueue(context);
@@ -117,7 +118,7 @@ public class LOL_API {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, "bad API calls", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Summoner Name not found", Toast.LENGTH_SHORT).show();
                 dialog.showFailure();
             }
         });

@@ -236,19 +236,23 @@ public class SelectFragment extends Fragment {
                                     if (filteredList.contains(addable)) {
                                         filteredList.remove(addable);
                                     }
+                                    if (NumSelected < MAX_PLAYERS) {
+                                        filteredList.get(0).setSelected(true);
+                                        NumSelected++;
+                                        selectedCount.setText(NumSelected + "/10");
+                                        NotifyDataSetChanged();
+                                    }
                                     addable = new Friend("");
                                 }
 
                                 @Override
                                 public void showFailure() {
                                     progressBar.setVisibility(View.GONE);
-                                    RankGraphic.setVisibility(View.VISIBLE);
-                                    Rank.setVisibility(View.VISIBLE);
                                     setBackgroundColor(getContext().getResources().getColor(R.color.GOLD));
                                     final Runnable restore = new Runnable() {
                                         @Override
                                         public void run() {
-                                            setBGColor();
+                                            setBackgroundColor(getContext().getResources().getColor(R.color.gray));
                                         }
                                     };
 
@@ -265,10 +269,6 @@ public class SelectFragment extends Fragment {
                                     }.start();
                                 }
                             });
-                            if (NumSelected < MAX_PLAYERS) {
-                                addable.setSelected(true);
-                                NumSelected++;
-                            }
                         }
                     });
                     return;

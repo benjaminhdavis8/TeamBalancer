@@ -88,7 +88,6 @@ public class FriendsFragment extends Fragment {
                         }
 
                         summonerName = edit.getText().toString();
-                        summonerName = summonerName.replaceAll("\\s+", "%20");
                         edit.setText("");
                         cancel.setVisibility(View.VISIBLE);
                         searchBox.setText("");
