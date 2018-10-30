@@ -212,8 +212,8 @@ public class VersesFragment extends Fragment {
                 bestdiff = currdiff;
                 bestTeam1 = new ArrayList<>(team1List);
                 bestTeam2 = new ArrayList<>(team2List);
-                PrintToTeam(team1View, bestTeam1);
-                PrintToTeam(team2View, bestTeam2);
+                PrintToSortedTeam(team1View, bestTeam1);
+                PrintToSortedTeam(team2View, bestTeam2);
             }
         }
 
@@ -224,6 +224,35 @@ public class VersesFragment extends Fragment {
         for (Friend f : team) {
             addPlayer(teamView, f);
         }
+    }
+
+    private void PrintToSortedTeam(LinearLayout teamView, List<Friend> team) {
+        teamView.removeAllViews();
+        team = sortFriendList(team);
+        for (Friend f : team) {
+            addPlayer(teamView, f);
+        }
+    }
+
+    private List<Friend> sortFriendList(List<Friend> friendlist) {
+        List<Friend> sortedlist = new ArrayList<>();
+        int highestRank;
+        Friend highestPlayer;
+        int currentRank;
+        while (friendlist.size() > 0) {
+            highestRank = -1;
+            highestPlayer = friendlist.get(0);
+            for (Friend f : friendlist) {
+                currentRank = f.getRank().ordinal();
+                if (currentRank > highestRank) {
+                    highestRank = currentRank;
+                    highestPlayer = f;
+                }
+            }
+            friendlist.remove(highestPlayer);
+            sortedlist.add(highestPlayer);
+        }
+        return sortedlist;
     }
 
 

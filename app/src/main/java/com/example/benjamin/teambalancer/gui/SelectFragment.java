@@ -7,7 +7,6 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.design.widget.FloatingActionButton;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -22,7 +21,6 @@ import android.widget.Toast;
 
 import com.example.benjamin.teambalancer.MainActivity;
 import com.example.benjamin.teambalancer.Model.Friend;
-import com.example.benjamin.teambalancer.Model.FriendsList;
 import com.example.benjamin.teambalancer.Model.LOLRank;
 import com.example.benjamin.teambalancer.Model.LOL_API;
 import com.example.benjamin.teambalancer.R;
@@ -217,7 +215,7 @@ public class SelectFragment extends Fragment {
                             addable.setUsername(username.substring(4, username.length()-1));
 
                             LOL_API api = LOL_API.getInstance(getContext());
-                            api.getSummnerInfo(addable.getUsername(), adapter, new ISpinnerDialog() {
+                            api.getSummonerInfo(addable.getUsername(), adapter, new ISpinnerDialog() {
                                 @Override
                                 public void showSpinner() {
                                     RankGraphic.setVisibility(View.GONE);

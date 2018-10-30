@@ -96,7 +96,7 @@ public class FriendsFragment extends Fragment {
 
                         LOL_API api = LOL_API.getInstance(getContext());
 
-                        api.getSummnerInfo(summonerName, adapter, dialog);
+                        api.getSummonerInfo(summonerName, adapter, dialog);
                     }
 
 

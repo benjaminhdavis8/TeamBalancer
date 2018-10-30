@@ -38,7 +38,7 @@ public class LOL_API {
     }
 
     // Request a string response from the provided URL.
-    public void getSummnerInfo(String inName, final FilterFriendRVAdapter adapter, final ISpinnerDialog dialog) {
+    public void getSummonerInfo(String inName, final FilterFriendRVAdapter adapter, final ISpinnerDialog dialog) {
         final String summonerName = inName.replaceAll("\\s+", "%20");
 
         // Instantiate the RequestQueue.

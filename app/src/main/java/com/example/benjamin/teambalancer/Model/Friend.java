@@ -37,6 +37,8 @@ public class Friend implements Comparable<Friend> {
         Selected = false;
         if (this.Rank == LOLRank.Unranked){
             MMR = (int) BASE_MMR;
+            setMMR();
+            return;
         }
         double rankOrdinal = Rank.ordinal() - 1;
         double totalRanks = LOLRank.values().length;
@@ -44,6 +46,7 @@ public class Friend implements Comparable<Friend> {
         //rankMult = 1;
         double floatMMR = (BASE_MMR + (BASE_MMR_COUNTER * rankMult * rankOrdinal));
         MMR = (int)floatMMR;
+        setMMR();
     }
 
     public Friend(String Username, LOLRank Rank) {
@@ -52,6 +55,8 @@ public class Friend implements Comparable<Friend> {
         Selected = false;
         if (this.Rank == LOLRank.Unranked){
             MMR = (int) BASE_MMR;
+            setMMR();
+            return;
         }
         double rankOrdinal = Rank.ordinal() - 1;
         double totalRanks = LOLRank.values().length;
@@ -59,6 +64,7 @@ public class Friend implements Comparable<Friend> {
         //rankMult = 1;
         double floatMMR = (BASE_MMR + (BASE_MMR_COUNTER * rankMult * rankOrdinal));
         MMR = (int)floatMMR;
+        setMMR();
     }
 
     public String getUsername() {
@@ -105,11 +111,13 @@ public class Friend implements Comparable<Friend> {
                 rank = LOLRank.values()[LOLRank.Unranked.ordinal()+26];
                 //don't break, but return since Master is div I
                 Rank = rank;
+                setMMR();
                 return;
             case "CHALLENGER":
                 rank = LOLRank.values()[LOLRank.Unranked.ordinal()+29];
                 //don't break, but return since Challenger is div I
                 Rank = rank;
+                setMMR();
                 return;
         }
         switch(div)
@@ -129,6 +137,20 @@ public class Friend implements Comparable<Friend> {
 
         }
         Rank = rank;
+        setMMR();
+    }
+
+    public void setMMR() {
+        if (Rank == LOLRank.Unranked){
+            MMR = (int) BASE_MMR;
+            return;
+        }
+        double rankOrdinal = Rank.ordinal() - 1;
+        double totalRanks = LOLRank.values().length;
+        double rankMult = 1.0 + (0.3 * (rankOrdinal / (totalRanks-2)));
+        //rankMult = 1;
+        double floatMMR = (BASE_MMR + (BASE_MMR_COUNTER * rankMult * rankOrdinal));
+        MMR = (int)floatMMR;
     }
 
     public String getRankText() {
