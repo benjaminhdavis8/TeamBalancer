@@ -31,8 +31,6 @@ public enum LOLRank {
     Diamond2,
     Diamond1,
     Master,
-    fake1,
-    fake2,
     Challenger;
 
     @Override

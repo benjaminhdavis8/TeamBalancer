@@ -14,7 +14,11 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.example.benjamin.teambalancer.MainActivity;
+import com.example.benjamin.teambalancer.Model.Friend;
+import com.example.benjamin.teambalancer.Model.FriendsList;
 import com.example.benjamin.teambalancer.R;
+
+import java.util.List;
 
 public class MainPageFragment extends Fragment {
 
@@ -28,6 +32,12 @@ public class MainPageFragment extends Fragment {
 
         backarrowLayout = getActivity().findViewById(R.id.backarrow_layout);
 
+        List<Friend> playerlist = ((MainActivity) getActivity()).getPlayerList();
+        playerlist = FriendsList.getInstance().getFriends();
+        for (Friend f: playerlist)
+        {
+            f.setSelected(false);
+        }
 
         friendsButton = view.findViewById(R.id.friends_layout);
         friendsButton.setOnClickListener(new View.OnClickListener() {

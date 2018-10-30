@@ -18,7 +18,8 @@ public class Friend implements Comparable<Friend> {
     private final int CHALLENGER = 0xff1155cc;
     private final int MASTER = 0xffcc7f00;
 
-    private final int BASE_MRR = 850;
+    private final double BASE_MMR = 850.0;
+    private final double BASE_MMR_COUNTER = 60.0;
     private int MMR;
 
 
@@ -33,18 +34,32 @@ public class Friend implements Comparable<Friend> {
 
     public Friend(String Username) {
         this.Username = Username;
-        Rank = LOLRank.Unranked;
-        int rankMult = (int) (1.3 * (Rank.ordinal() / LOLRank.values().length));
-        //rankMult = 1;
-        MMR = BASE_MRR + (60 * (rankMult) * (Rank.ordinal() - 1));
+        this.Rank = LOLRank.Unranked;
         Selected = false;
+        if (this.Rank == LOLRank.Unranked){
+            MMR = (int) BASE_MMR;
+        }
+        double rankOrdinal = Rank.ordinal() - 1;
+        double totalRanks = LOLRank.values().length;
+        double rankMult = 1.0 + (0.3 * (rankOrdinal / (totalRanks-2)));
+        //rankMult = 1;
+        double floatMMR = (BASE_MMR + (BASE_MMR_COUNTER * rankMult * rankOrdinal));
+        MMR = (int)floatMMR;
     }
 
     public Friend(String Username, LOLRank Rank) {
         this.Username = Username;
         this.Rank = Rank;
-        MMR = BASE_MRR + (60 * (Rank.ordinal() - 1));
         Selected = false;
+        if (this.Rank == LOLRank.Unranked){
+            MMR = (int) BASE_MMR;
+        }
+        double rankOrdinal = Rank.ordinal() - 1;
+        double totalRanks = LOLRank.values().length;
+        double rankMult = 1.0 + (0.3 * (rankOrdinal / (totalRanks-2)));
+        //rankMult = 1;
+        double floatMMR = (BASE_MMR + (BASE_MMR_COUNTER * rankMult * rankOrdinal));
+        MMR = (int)floatMMR;
     }
 
     public String getUsername() {

@@ -3,6 +3,7 @@ package com.example.benjamin.teambalancer;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -66,7 +67,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void switchToVersesFragment() {
         Fragment fragment = new VersesFragment();
-        setFragment(fragment);
+//        setFragment(fragment);
+        getSupportFragmentManager().beginTransaction()
+//                .setCustomAnimations(R.anim.enter, R.anim.exit)
+                .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
+                .replace(R.id.main_fragment, fragment)
+                .addToBackStack(null).commit();
+
     }
 
     private void setFragment(Fragment fragment) {

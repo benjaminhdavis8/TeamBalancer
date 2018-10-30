@@ -34,7 +34,7 @@ public class SelectFragment extends Fragment {
     private static final int MAX_PLAYERS = 10;
     private static final int MIN_PLAYERS = 2;
     FriendsRVAdapter adapter;
-    FloatingActionButton balanceButton;
+    ru.dimorinny.floatingtextbutton.FloatingTextButton balanceButton;
     ImageView backarrow;
     ConstraintLayout backArrowLayout;
     EditText searchBox;
@@ -49,17 +49,18 @@ public class SelectFragment extends Fragment {
         LinearLayoutManager ll = new LinearLayoutManager(view.getContext());
         ll.setOrientation(LinearLayout.VERTICAL);
         rv.setLayoutManager(ll);
-        adapter = new FriendsRVAdapter();
-        rv.setAdapter(adapter);
 
         searchBox = view.findViewById(R.id.search_bar);
         selectedCount = view.findViewById(R.id.selected_count);
+
+        adapter = new FriendsRVAdapter();
+        rv.setAdapter(adapter);
 
         backarrow = getActivity().findViewById(R.id.backarrow);
         backArrowLayout = getActivity().findViewById(R.id.backarrow_layout);
 
         balanceButton = view.findViewById(R.id.action_button);
-        balanceButton.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.arrow_forward));
+//        balanceButton.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.arrow_forward));
         balanceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,6 +119,9 @@ public class SelectFragment extends Fragment {
         }
     }
 
+
+    //**Adapter****************************************************************************************
+
     private class FriendsRVAdapter extends FilterFriendRVAdapter<FriendsRVAdapter.ViewHolder> {
         int NumSelected = 0;
 
@@ -125,8 +129,14 @@ public class SelectFragment extends Fragment {
             // debug constructor
             super();
             for (Friend f: filteredList) {
-                f.setSelected(false);
+                //f.setSelected(false);
+                if (f.getSelected())
+                {
+                    NumSelected++;
+                }
             }
+            selectedCount.setText(NumSelected + "/10");
+
         }
 
         @NonNull

@@ -47,7 +47,7 @@ https://material.io/tools/icons/?icon=arrow_forward&style=baseline
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 android:text="0/10"
                 android:gravity="center_horizontal"
@@ -69,7 +69,22 @@ https://material.io/tools/icons/?icon=arrow_forward&style=baseline
         </LinearLayout>
     </LinearLayout>
 
-    <android.support.design.widget.FloatingActionButton
+    <!--<android.support.design.widget.FloatingActionButton-->
+        <!--android:id="@+id/action_button"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="end|bottom"-->
+        <!--android:layout_margin="16dp"-->
+        <!--android:layout_marginBottom="8dp"-->
+        <!--android:layout_marginEnd="8dp"-->
+        <!--android:layout_marginRight="8dp"-->
+        <!--android:tint="@color/background"-->
+        <!--android:backgroundTint="@color/colorAccent"-->
+        <!--android:src="@drawable/arrow_forward"-->
+        <!--app:borderWidth="0dp" -->
+        <!--/>-->
+
+    <ru.dimorinny.floatingtextbutton.FloatingTextButton
         android:id="@+id/action_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -79,7 +94,13 @@ https://material.io/tools/icons/?icon=arrow_forward&style=baseline
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:tint="@color/background"
-        android:backgroundTint="@color/colorAccent"
-        app:borderWidth="0dp" />
+        app:floating_background_color="@color/colorAccent"
+        android:src="@drawable/add"
+        app:floating_title="@string/balance"
+        app:floating_title_color="@color/black"
+        app:borderWidth="0dp"
+        app:floating_right_icon="@drawable/arrow_forward"
+        android:textSize="50sp"
+        />
 
 </FrameLayout>

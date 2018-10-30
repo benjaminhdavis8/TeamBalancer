@@ -66,8 +66,10 @@ https://material.io/tools/icons/?icon=arrow_forward&style=baseline
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:tint="@color/background"
+        android:tint="@color/black"
         android:backgroundTint="@color/colorAccent"
-        app:borderWidth="0dp" />
+        android:src="@drawable/add"
+        app:borderWidth="0dp"
+        />
 
 </FrameLayout>

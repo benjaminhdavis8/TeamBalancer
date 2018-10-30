@@ -75,4 +75,8 @@ abstract public class FilterFriendRVAdapter<T extends RecyclerView.ViewHolder> e
         filter();
     }
 
+    public List<Friend> getFilteredList() {
+        return filteredList;
+    }
+
 }
