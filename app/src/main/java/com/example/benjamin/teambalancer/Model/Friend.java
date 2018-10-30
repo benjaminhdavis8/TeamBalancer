@@ -27,8 +27,7 @@ public class Friend implements Comparable<Friend> {
     private LOLRank Rank;
     private Drawable drawable;
     private Integer color;
-    private
-    Boolean Selected;
+    private Boolean Selected;
 
 
 
