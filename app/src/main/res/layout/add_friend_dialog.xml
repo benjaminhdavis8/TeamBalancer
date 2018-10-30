@@ -82,6 +82,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="visible"
+            android:tint="@android:color/holo_red_dark"
             android:layout_centerHorizontal="true" />
 
         <ImageView
@@ -90,6 +91,7 @@
             android:layout_height="80dp"
             android:scaleType="fitXY"
             android:visibility="gone"
+            android:tint="@color/colorPrimary"
             android:src="@drawable/big_check"/>
 
         <ImageView
