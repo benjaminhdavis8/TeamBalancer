@@ -74,14 +74,10 @@ public class FriendsFragment extends Fragment {
         addButton.setVisibility(View.VISIBLE);
         addButton.setOnClickListener(new View.OnClickListener() {
             final Dialog dialog = new Dialog(getActivity());
-            final Dialog cardDialog = new Dialog(getActivity());
-            final Dialog afterDialog = new Dialog(getActivity());
             String summonerName;
             @Override
             public void onClick(View v) {
                 dialog.setContentView(R.layout.add_friend_dialog);
-                cardDialog.setContentView(R.layout.add_friend_card_dialog);
-                afterDialog.setContentView(R.layout.add_friend_after_dialog);
 
                 final EditText edit = dialog.findViewById(R.id.edit);
                 edit.setText(searchBox.getText());
@@ -89,45 +85,38 @@ public class FriendsFragment extends Fragment {
                 final View forum = dialog.findViewById(R.id.add_friend_forum);
                 final View spinner = dialog.findViewById(R.id.progressBar1);
 
-                final EditText editAfter = afterDialog.findViewById(R.id.edit);
-
-                final Button cancel = afterDialog.findViewById(R.id.cancel_button);
-                final Button addAfter = afterDialog.findViewById(R.id.save_button);
-                afterDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                final Button cancel = dialog.findViewById(R.id.cancel_button);
+                cancel.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onShow(DialogInterface dialog) {
-                        addAfter.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                if(editAfter.getText().length() > 0) {
-                                    adapter.add(0, new Friend(edit.getText().toString()));
-                                    adapter.notifyDataSetChanged();
-                                    summonerName = editAfter.getText().toString();
-                                    summonerName = summonerName.replaceAll("\\s+", "%20");
-                                    editAfter.setText("");
-                                    afterDialog.cancel();
-                                    cardDialog.show();
-                                }
-                            }
-                        });
-
-                        cancel.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                afterDialog.cancel();
-                            }
-                        });
+                    public void onClick(View v) {
+                        dialog.cancel();
                     }
                 });
 
-                final TextView cardText = (TextView) cardDialog.findViewById(R.id.hint);
-                cardDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                Button add = dialog.findViewById(R.id.save_button);
+                add.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onShow(DialogInterface dialog) {
+                    public void onClick(View v) {
+                        final Activity activity = getActivity();
+                        if (edit.getText().length() <= 0) {
+                            return;
+                        }
 
+                        summonerName = edit.getText().toString();
+                        summonerName = summonerName.replaceAll("\\s+", "%20");
+                        edit.setText("");
+                        cancel.setVisibility(View.VISIBLE);
+                        searchBox.setText("");
+                        edit.setText("");
+                        forum.setVisibility(View.GONE);
+                        spinner.setVisibility(View.VISIBLE);
+                        adapter.add(0, new Friend(edit.getText().toString()));
+                        adapter.notifyDataSetChanged();
+
+                        // card dialog run routine
                         // Instantiate the RequestQueue.
                         RequestQueue queue1 = Volley.newRequestQueue(getActivity());
-                        String url ="https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/" + summonerName + "?api_key=" + APIKey;
+                        String url = "https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/" + summonerName + "?api_key=" + APIKey;
 
                         // Request a string response from the provided URL.
                         StringRequest summonerRequest = new StringRequest(Request.Method.GET, url,
@@ -135,35 +124,33 @@ public class FriendsFragment extends Fragment {
                                     @Override
                                     public void onResponse(String response) {
                                         // Display the first 500 characters of the response string.
-                                        cardText.setText("Response is: "+ response);
+                                        Log.d("API call", "onResponse: " + response);
                                         try {
                                             JSONObject respJSONObj = new JSONObject(response);
                                             final String summonerID = respJSONObj.getString("id");
                                             summonerName = respJSONObj.getString("name");
                                             //int maxItems = result.getInt("end");
                                             //JSONArray resultList = result.getJSONArray("item");
-                                            cardText.setText("Response is: "+ response + summonerID);
+                                            Log.d("API call", "Response is: " + response + summonerID);
                                             // MAKE NEXT REQUEST.
                                             RequestQueue queue2 = Volley.newRequestQueue(getActivity());
-                                            String url ="https://na1.api.riotgames.com/lol/league/v3/positions/by-summoner/" + summonerID + "?api_key=" + APIKey;
+                                            String url = "https://na1.api.riotgames.com/lol/league/v3/positions/by-summoner/" + summonerID + "?api_key=" + APIKey;
                                             // Request a string response from the provided URL.
                                             StringRequest queueRequest = new StringRequest(Request.Method.GET, url,
                                                     new Response.Listener<String>() {
                                                         @Override
                                                         public void onResponse(String response) {
                                                             // Display the first 500 characters of the response string.
-                                                            cardText.setText("Response is: "+ response);
+                                                            Log.d("API call", "Response is: " + response);
                                                             try {
                                                                 JSONArray queueArray = new JSONArray(response);
                                                                 JSONObject queueStat;
-                                                                String queueType, tier="", div="";
+                                                                String queueType, tier = "", div = "";
                                                                 LOLRank rank;
-                                                                for (int i=0; i<queueArray.length(); i++)
-                                                                {
+                                                                for (int i = 0; i < queueArray.length(); i++) {
                                                                     queueStat = queueArray.getJSONObject(i);
                                                                     queueType = queueStat.getString("queueType");
-                                                                    if (queueType.equals("RANKED_SOLO_5x5"))
-                                                                    {
+                                                                    if (queueType.equals("RANKED_SOLO_5x5")) {
                                                                         tier = queueStat.getString("tier");
                                                                         div = queueStat.getString("rank");
                                                                     }
@@ -177,24 +164,24 @@ public class FriendsFragment extends Fragment {
                                                                 summonerName = edit.getText().toString();
                                                                 //int maxItems = result.getInt("end");
                                                                 //JSONArray resultList = result.getJSONArray("item");
-                                                                cardText.setText("Response is: "+ response + summonerID);
+                                                                Log.d("API call", "Response is: " + response + summonerID);
                                                             } catch (JSONException e) {
                                                                 Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-                                                                cardDialog.cancel();
-                                                                afterDialog.show();
+                                                                spinner.setVisibility(View.GONE);
+                                                                forum.setVisibility(View.VISIBLE);
                                                             }
 
                                                             Log.d("API", "Both API calls succeeded!");
-                                                            cardDialog.cancel();
-                                                            afterDialog.show();
+                                                            spinner.setVisibility(View.GONE);
+                                                            forum.setVisibility(View.VISIBLE);
 
                                                         }
                                                     }, new Response.ErrorListener() {
                                                 @Override
                                                 public void onErrorResponse(VolleyError error) {
-                                                    cardText.setText("That didn't work!");
-                                                    cardDialog.cancel();
-                                                    afterDialog.show();
+                                                    Log.d("API call","That didn't work!");
+                                                    spinner.setVisibility(View.GONE);
+                                                    forum.setVisibility(View.VISIBLE);
                                                 }
                                             });
 
@@ -202,48 +189,23 @@ public class FriendsFragment extends Fragment {
 
                                         } catch (JSONException e) {
                                             Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-                                            cardDialog.cancel();
-                                            afterDialog.show();
+                                            spinner.setVisibility(View.GONE);
+                                            forum.setVisibility(View.VISIBLE);
                                         }
 
                                     }
                                 }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                cardText.setText("That didn't work!");
-                                cardDialog.cancel();
-                                afterDialog.show();
+                                Toast.makeText(getContext(), "bad API calls", Toast.LENGTH_LONG).show();
                             }
                         });
 
 // Add the request to the RequestQueue.
                         queue1.add(summonerRequest);
-
                     }
-                });
 
-                Button add = dialog.findViewById(R.id.save_button);
-                add.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        final Activity activity = getActivity();
-                        if(edit.getText().length() > 0) {
 
-                            //Mason's
-                            summonerName = edit.getText().toString();
-                            summonerName = summonerName.replaceAll("\\s+", "%20");
-                            edit.setText("");
-                            dialog.cancel();
-                            cardDialog.show();
-
-                            //Ben's
-                            cancel.setVisibility(View.VISIBLE);
-                            searchBox.setText("");
-                            edit.setText("");
-//                            adapter.add(0, new Friend(edit.getText().toString()));
-//                            adapter.notifyDataSetChanged();
-//                            forum.setVisibility(View.GONE);
-//                            spinner.setVisibility(View.VISIBLE);
 //                            final Runnable restore = new Runnable() {
 //                                @Override
 //                                public void run() {
@@ -262,13 +224,11 @@ public class FriendsFragment extends Fragment {
 //                                    }
 //                                }
 //                            }.start();
+//                            }
 
-                        }
-                    }
                 });
 
                 dialog.show();
-//                cardDialog.show();
                 }
             });
 
