@@ -2,18 +2,17 @@ package com.example.benjamin.teambalancer.gui;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,21 +22,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.benjamin.teambalancer.Model.Friend;
 import com.example.benjamin.teambalancer.Model.LOLRank;
+import com.example.benjamin.teambalancer.Model.LOL_API;
 import com.example.benjamin.teambalancer.R;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +40,6 @@ public class FriendsFragment extends Fragment {
     ImageView backArrow;
     ConstraintLayout backArrowLayout;
     EditText searchBox;
-    final String APIKey = "RGAPI-6e45f814-0d90-4b9d-a000-d35e07fc6508";
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -73,17 +61,14 @@ public class FriendsFragment extends Fragment {
         addButton.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.add));
         addButton.setVisibility(View.VISIBLE);
         addButton.setOnClickListener(new View.OnClickListener() {
-            final Dialog dialog = new Dialog(getActivity());
+            final SpinnerDialog dialog = new SpinnerDialog(getActivity());
             String summonerName;
             @Override
             public void onClick(View v) {
-                dialog.setContentView(R.layout.add_friend_dialog);
+                dialog.setContentView();
 
                 final EditText edit = dialog.findViewById(R.id.edit);
                 edit.setText(searchBox.getText());
-
-                final View forum = dialog.findViewById(R.id.add_friend_forum);
-                final View spinner = dialog.findViewById(R.id.progressBar1);
 
                 final Button cancel = dialog.findViewById(R.id.cancel_button);
                 cancel.setOnClickListener(new View.OnClickListener() {
@@ -108,101 +93,11 @@ public class FriendsFragment extends Fragment {
                         cancel.setVisibility(View.VISIBLE);
                         searchBox.setText("");
                         edit.setText("");
-                        forum.setVisibility(View.GONE);
-                        spinner.setVisibility(View.VISIBLE);
-                        adapter.add(0, new Friend(edit.getText().toString()));
-                        adapter.notifyDataSetChanged();
+                        dialog.showSpinner();
 
-                        // card dialog run routine
-                        // Instantiate the RequestQueue.
-                        RequestQueue queue1 = Volley.newRequestQueue(getActivity());
-                        String url = "https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/" + summonerName + "?api_key=" + APIKey;
+                        LOL_API api = LOL_API.getInstance(getContext());
 
-                        // Request a string response from the provided URL.
-                        StringRequest summonerRequest = new StringRequest(Request.Method.GET, url,
-                                new Response.Listener<String>() {
-                                    @Override
-                                    public void onResponse(String response) {
-                                        // Display the first 500 characters of the response string.
-                                        Log.d("API call", "onResponse: " + response);
-                                        try {
-                                            JSONObject respJSONObj = new JSONObject(response);
-                                            final String summonerID = respJSONObj.getString("id");
-                                            summonerName = respJSONObj.getString("name");
-                                            //int maxItems = result.getInt("end");
-                                            //JSONArray resultList = result.getJSONArray("item");
-                                            Log.d("API call", "Response is: " + response + summonerID);
-                                            // MAKE NEXT REQUEST.
-                                            RequestQueue queue2 = Volley.newRequestQueue(getActivity());
-                                            String url = "https://na1.api.riotgames.com/lol/league/v3/positions/by-summoner/" + summonerID + "?api_key=" + APIKey;
-                                            // Request a string response from the provided URL.
-                                            StringRequest queueRequest = new StringRequest(Request.Method.GET, url,
-                                                    new Response.Listener<String>() {
-                                                        @Override
-                                                        public void onResponse(String response) {
-                                                            // Display the first 500 characters of the response string.
-                                                            Log.d("API call", "Response is: " + response);
-                                                            try {
-                                                                JSONArray queueArray = new JSONArray(response);
-                                                                JSONObject queueStat;
-                                                                String queueType, tier = "", div = "";
-                                                                LOLRank rank;
-                                                                for (int i = 0; i < queueArray.length(); i++) {
-                                                                    queueStat = queueArray.getJSONObject(i);
-                                                                    queueType = queueStat.getString("queueType");
-                                                                    if (queueType.equals("RANKED_SOLO_5x5")) {
-                                                                        tier = queueStat.getString("tier");
-                                                                        div = queueStat.getString("rank");
-                                                                    }
-                                                                }
-                                                                Friend summoner = new Friend(summonerName);
-                                                                if (tier != null && div != null) {
-                                                                    summoner.setRank(tier, div);
-                                                                }
-                                                                adapter.add(0, summoner);
-                                                                adapter.notifyDataSetChanged();
-                                                                summonerName = edit.getText().toString();
-                                                                //int maxItems = result.getInt("end");
-                                                                //JSONArray resultList = result.getJSONArray("item");
-                                                                Log.d("API call", "Response is: " + response + summonerID);
-                                                            } catch (JSONException e) {
-                                                                Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-                                                                spinner.setVisibility(View.GONE);
-                                                                forum.setVisibility(View.VISIBLE);
-                                                            }
-
-                                                            Log.d("API", "Both API calls succeeded!");
-                                                            spinner.setVisibility(View.GONE);
-                                                            forum.setVisibility(View.VISIBLE);
-
-                                                        }
-                                                    }, new Response.ErrorListener() {
-                                                @Override
-                                                public void onErrorResponse(VolleyError error) {
-                                                    Log.d("API call","That didn't work!");
-                                                    spinner.setVisibility(View.GONE);
-                                                    forum.setVisibility(View.VISIBLE);
-                                                }
-                                            });
-
-                                            queue2.add(queueRequest);
-
-                                        } catch (JSONException e) {
-                                            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-                                            spinner.setVisibility(View.GONE);
-                                            forum.setVisibility(View.VISIBLE);
-                                        }
-
-                                    }
-                                }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(getContext(), "bad API calls", Toast.LENGTH_LONG).show();
-                            }
-                        });
-
-// Add the request to the RequestQueue.
-                        queue1.add(summonerRequest);
+                        api.getSummnerInfo(summonerName, adapter, dialog);
                     }
 
 
@@ -319,35 +214,35 @@ public class FriendsFragment extends Fragment {
                 RankGraphic = itemView.findViewById(R.id.rank_image);
                 deleteButton = itemView.findViewById(R.id.delete_button);
                 deleteButton.setOnClickListener(new View.OnClickListener() {
-                    Dialog dialog = new Dialog(getActivity());
+                    Dialog confirmDialog = new Dialog(getActivity());
                     @Override
                     public void onClick(View v) {
                         if (Index < 0) {
                             return;
                         }
-                        dialog.setContentView(R.layout.confirm_dialog);
-                        TextView hint = dialog.findViewById(R.id.confirmTitle);
+                        confirmDialog.setContentView(R.layout.confirm_dialog);
+                        TextView hint = confirmDialog.findViewById(R.id.confirmTitle);
                         hint.setText(hint.getText().toString().replace(getResources().getString(R.string.replaceable), Username.getText().toString()));
 
-                        Button cancel = dialog.findViewById(R.id.confirm_no);
+                        Button cancel = confirmDialog.findViewById(R.id.confirm_no);
                         cancel.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                dialog.cancel();
+                                confirmDialog.cancel();
                             }
                         });
 
-                        Button delete = dialog.findViewById(R.id.confirm_yes);
+                        Button delete = confirmDialog.findViewById(R.id.confirm_yes);
                             delete.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 remove(Index);
                                 notifyDataSetChanged();
-                                dialog.cancel();
+                                confirmDialog.cancel();
                             }
                         });
 
-                        dialog.show();
+                        confirmDialog.show();
                     }
                 });
                 Index = -1;
@@ -368,6 +263,91 @@ public class FriendsFragment extends Fragment {
                 RankGraphic.setImageDrawable(drawable);
             }
 
+        }
+    }
+
+    private class SpinnerDialog extends Dialog implements ISpinnerDialog {
+        private View forumLayout;
+        private View feedbackLayout;
+        private View spinner;
+        private View success;
+        private View failure;
+
+        public SpinnerDialog(FragmentActivity activity) {
+            super(activity);
+        }
+
+        public void setContentView() {
+            super.setContentView(R.layout.add_friend_dialog);
+
+            forumLayout = findViewById(R.id.add_friend_forum);
+            feedbackLayout = findViewById(R.id.progressBarLayout);
+            spinner = findViewById(R.id.progressSpinner);
+            success = findViewById(R.id.successImg);
+            failure = findViewById(R.id.failImg);
+        }
+
+        @Override
+        public void showSpinner() {
+            forumLayout.setVisibility(View.GONE);
+            feedbackLayout.setVisibility(View.VISIBLE);
+            spinner.setVisibility(View.VISIBLE);
+            success.setVisibility(View.GONE);
+            failure.setVisibility(View.GONE);
+        }
+
+        @Override
+        public void showSuccess() {
+            forumLayout.setVisibility(View.GONE);
+            feedbackLayout.setVisibility(View.VISIBLE);
+            spinner.setVisibility(View.GONE);
+            success.setVisibility(View.VISIBLE);
+            failure.setVisibility(View.GONE);
+                final Runnable restore = new Runnable() {
+                    @Override
+                    public void run() {
+                        feedbackLayout.setVisibility(View.GONE);
+                        forumLayout.setVisibility(View.VISIBLE);
+                    }
+                };
+
+                new Thread(restore) {
+                    public void run() {
+                        try {
+                            Thread.sleep(300);
+                            getActivity().runOnUiThread(restore);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }.start();
+        }
+
+        @Override
+        public void showFailure() {
+            forumLayout.setVisibility(View.GONE);
+            feedbackLayout.setVisibility(View.VISIBLE);
+            spinner.setVisibility(View.GONE);
+            success.setVisibility(View.GONE);
+            failure.setVisibility(View.VISIBLE);
+            final Runnable restore = new Runnable() {
+                @Override
+                public void run() {
+                    feedbackLayout.setVisibility(View.GONE);
+                    forumLayout.setVisibility(View.VISIBLE);
+                }
+            };
+
+            new Thread(restore) {
+                public void run() {
+                    try {
+                        Thread.sleep(300);
+                        getActivity().runOnUiThread(restore);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }.start();
         }
     }
 }
