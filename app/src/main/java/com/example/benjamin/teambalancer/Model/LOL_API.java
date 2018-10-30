@@ -18,7 +18,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class LOL_API {
-    final private String APIKey = "RGAPI-6e45f814-0d90-4b9d-a000-d35e07fc6508";
+    final private String APIKey = "RGAPI-724a03ae-9bd4-430d-85cd-4ac4c739f2ab";
     static LOL_API instance;
     Context context;
 
