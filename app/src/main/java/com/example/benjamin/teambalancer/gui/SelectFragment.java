@@ -24,6 +24,7 @@ import com.example.benjamin.teambalancer.MainActivity;
 import com.example.benjamin.teambalancer.Model.Friend;
 import com.example.benjamin.teambalancer.Model.FriendsList;
 import com.example.benjamin.teambalancer.Model.LOLRank;
+import com.example.benjamin.teambalancer.Model.LOL_API;
 import com.example.benjamin.teambalancer.R;
 
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public class SelectFragment extends Fragment {
     private static final int MAX_PLAYERS = 10;
     private static final int MIN_PLAYERS = 2;
     FriendsRVAdapter adapter;
-    ru.dimorinny.floatingtextbutton.FloatingTextButton balanceButton;
+    private ru.dimorinny.floatingtextbutton.FloatingTextButton balanceButton;
     ImageView backarrow;
     ConstraintLayout backArrowLayout;
     EditText searchBox;
@@ -177,6 +178,7 @@ public class SelectFragment extends Fragment {
             final LinearLayout item;
             final TextView Username;
             final TextView Rank;
+            final View progressBar;
             //ImageView PersonalImage;
             final ImageView RankGraphic;
             int Index;
@@ -186,6 +188,7 @@ public class SelectFragment extends Fragment {
                 Username = itemView.findViewById(R.id.username);
                 Rank = itemView.findViewById(R.id.rank_string);
                 RankGraphic = itemView.findViewById(R.id.rank_image);
+                progressBar = itemView.findViewById(R.id.progressSpinner);
                 item = itemView.findViewById(R.id.friend_field);
                 Index = -1;
             }
@@ -210,17 +213,62 @@ public class SelectFragment extends Fragment {
                     item.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            String username = addable.getUsername();
+                            addable.setUsername(username.substring(4, username.length()-1));
+
+                            LOL_API api = LOL_API.getInstance(getContext());
+                            api.getSummnerInfo(addable.getUsername(), adapter, new ISpinnerDialog() {
+                                @Override
+                                public void showSpinner() {
+                                    RankGraphic.setVisibility(View.GONE);
+                                    progressBar.setVisibility(View.VISIBLE);
+                                }
+
+                                @Override
+                                public void showSuccess() {
+                                    searchBox.setText("");
+                                    clearFilterString();
+                                    progressBar.setVisibility(View.GONE);
+                                    RankGraphic.setVisibility(View.VISIBLE);
+                                    Rank.setVisibility(View.VISIBLE);
+                                    setBackgroundColor(getContext().getResources().getColor(R.color.colorAccent));
+                                    setBGColor();
+                                    if (filteredList.contains(addable)) {
+                                        filteredList.remove(addable);
+                                    }
+                                    addable = new Friend("");
+                                }
+
+                                @Override
+                                public void showFailure() {
+                                    progressBar.setVisibility(View.GONE);
+                                    RankGraphic.setVisibility(View.VISIBLE);
+                                    Rank.setVisibility(View.VISIBLE);
+                                    setBackgroundColor(getContext().getResources().getColor(R.color.GOLD));
+                                    final Runnable restore = new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            setBGColor();
+                                        }
+                                    };
+
+                                    new Thread(restore) {
+                                        public void run() {
+                                            try {
+                                                Thread.sleep(300);
+                                                addable = new Friend("");
+                                                getActivity().runOnUiThread(restore);
+                                            } catch (InterruptedException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    }.start();
+                                }
+                            });
                             if (NumSelected < MAX_PLAYERS) {
                                 addable.setSelected(true);
                                 NumSelected++;
                             }
-                            String username = addable.getUsername();
-                            searchBox.setText("");
-                            clearFilterString();
-                            addable.setUsername(username.substring(4, username.length()-1));
-                            filteredList.remove(addable);
-                            adapter.add(0, addable);
-                            addable = new Friend("");
                         }
                     });
                     return;
