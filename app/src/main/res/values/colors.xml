@@ -12,6 +12,10 @@
     <color name="colorPrimaryTint2">#00dfee</color>
     <color name="colorAccent">#f2d300</color>
 
+    <color name="grayedout">#99D3D3D3</color>
+    <color name="grayedoutText">#99020202</color>
+
+
     <color name="BRONZE">#783f04</color>
     <color name="SILVER">#707464</color>
     <color name="GOLD">#9f0200</color>

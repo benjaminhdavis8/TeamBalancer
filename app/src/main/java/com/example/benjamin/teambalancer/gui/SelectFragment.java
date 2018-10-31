@@ -1,5 +1,7 @@
 package com.example.benjamin.teambalancer.gui;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,19 +28,24 @@ import com.example.benjamin.teambalancer.Model.LOLRank;
 import com.example.benjamin.teambalancer.Model.LOL_API;
 import com.example.benjamin.teambalancer.R;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class SelectFragment extends Fragment {
 
     private static final int MAX_PLAYERS = 10;
-    private static final int MIN_PLAYERS = 2;
+    private static final int MIN_PLAYERS = 10;
     FriendsRVAdapter adapter;
     private ru.dimorinny.floatingtextbutton.FloatingTextButton balanceButton;
     ImageView backarrow;
     ConstraintLayout backArrowLayout;
     EditText searchBox;
     TextView selectedCount;
+
+    View.OnClickListener activatedBalanceListener;
+    View.OnClickListener disabledBalanceListener;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,7 +55,17 @@ public class SelectFragment extends Fragment {
         RecyclerView rv = view.findViewById(R.id.friends_RV);
         LinearLayoutManager ll = new LinearLayoutManager(view.getContext());
         ll.setOrientation(LinearLayout.VERTICAL);
+        TextView hintTextView = new TextView(getContext());
+        LinearLayout.LayoutParams hintParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        hintTextView.setLayoutParams(hintParams);
+        hintTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+        hintTextView.setText(getString(R.string.select_hint));
+
+        //ll.addView(hintTextView);
+
         rv.setLayoutManager(ll);
+
+        //rv.addView(hintTextView);
 
         searchBox = view.findViewById(R.id.search_bar);
         selectedCount = view.findViewById(R.id.selected_count);
@@ -60,14 +78,22 @@ public class SelectFragment extends Fragment {
 
         balanceButton = view.findViewById(R.id.action_button);
 //        balanceButton.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.arrow_forward));
-        balanceButton.setOnClickListener(new View.OnClickListener() {
+        activatedBalanceListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MainActivity activity = (MainActivity)getActivity();
                 activity.setPlayerList(adapter.getSelected());
                 activity.switchToVersesFragment();
-                }
-            });
+            }
+        };
+        disabledBalanceListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        };
+        balanceButton.setOnClickListener(activatedBalanceListener);
+
         setActionButtonVisible();
 
         EditText search = view.findViewById(R.id.search_bar);
@@ -111,10 +137,22 @@ public class SelectFragment extends Fragment {
 
     private void setActionButtonVisible() {
         if (adapter.NumSelected < MIN_PLAYERS || adapter.NumSelected > MAX_PLAYERS) {
-            balanceButton.setVisibility(View.INVISIBLE);
+            //balanceButton.setVisibility(View.INVISIBLE);
+            balanceButton.setRightIconDrawable(getResources().getDrawable(R.drawable.arrow_forward_grayedout));
+            balanceButton.setTitle((adapter.NumSelected + "/10"));
+            balanceButton.setBackgroundColor(getResources().getColor(R.color.grayedout));
+            balanceButton.setTitleColor(getResources().getColor(R.color.grayedoutText));
+            balanceButton.setClickable(false);
+            balanceButton.setOnClickListener(disabledBalanceListener);
         }
         else {
-            balanceButton.setVisibility(View.VISIBLE);
+            //balanceButton.setVisibility(View.VISIBLE);
+            balanceButton.setRightIconDrawable(getResources().getDrawable(R.drawable.arrow_forward));
+            balanceButton.setTitle(getString(R.string.balance));
+            balanceButton.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            balanceButton.setTitleColor(getResources().getColor(R.color.black));
+            balanceButton.setClickable(true);
+            balanceButton.setOnClickListener(activatedBalanceListener);
         }
     }
 
@@ -135,6 +173,7 @@ public class SelectFragment extends Fragment {
                 }
             }
             selectedCount.setText(NumSelected + "/10");
+            //setActionButtonVisible();
 
         }
 
@@ -240,6 +279,7 @@ public class SelectFragment extends Fragment {
 
                                         NumSelected++;
                                         selectedCount.setText(NumSelected + "/10");
+                                        setActionButtonVisible();
                                         NotifyDataSetChanged();
                                     }
                                     addable = new Friend("");

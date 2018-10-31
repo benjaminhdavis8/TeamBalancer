@@ -6,6 +6,7 @@
     <string name="team_2">Team 2</string>
     <string name="strength">Strength:</string>
     <string name="add_hint">Enter your friend\'s League of Legends Summoner Name</string>
+    <string name="select_hint">Tap players to balance them.</string>
     <string name="done">DONE</string>
     <string name="add">ADD</string>
     <string name="cancel">Cancel</string>
