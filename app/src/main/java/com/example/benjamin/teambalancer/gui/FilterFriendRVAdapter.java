@@ -72,6 +72,8 @@ abstract public class FilterFriendRVAdapter<T extends RecyclerView.ViewHolder> e
             return;
         }
         dataList.add(index, friend);
+        FriendsList.getInstance().sortFriends();
+        dataList = FriendsList.getInstance().getFriends();
         filter();
     }
 
