@@ -35,6 +35,9 @@ public class VersesFragment extends Fragment {
 
     ConstraintLayout backArrowLayout;
 
+    private TextView team1Strength;
+    private TextView team2Strength;
+
     private List<Friend> players;
 
     private Typeface friz;
@@ -49,6 +52,9 @@ public class VersesFragment extends Fragment {
 
         team1View = view.findViewById(R.id.team1);
         team2View = view.findViewById(R.id.team2);
+
+        team1Strength = view.findViewById(R.id.team1_strength);
+        team2Strength = view.findViewById(R.id.team2_strength);
 
         team1List = new ArrayList<>();
         team2List = new ArrayList<>();
@@ -214,6 +220,8 @@ public class VersesFragment extends Fragment {
                 bestTeam2 = new ArrayList<>(team2List);
                 PrintToSortedTeam(team1View, bestTeam1);
                 PrintToSortedTeam(team2View, bestTeam2);
+                team1Strength.setText((getString(R.string.strength) + " " + team1MMR));
+                team2Strength.setText((getString(R.string.strength) + " " + team2MMR));
             }
         }
 
@@ -340,7 +348,7 @@ public class VersesFragment extends Fragment {
             card.setLayoutParams(params);
             card.setBackgroundColor(getContext().getResources().getColor(R.color.colorPrimaryTint));
             card.setOrientation(LinearLayout.HORIZONTAL);
-            card.setPadding(5, 10, 5, 20);
+            card.setPadding(5, 10, 5, 10);
 
             {
                 LinearLayout text = new LinearLayout(getActivity());

@@ -114,7 +114,7 @@ public class Friend implements Comparable<Friend> {
                 setMMR();
                 return;
             case "CHALLENGER":
-                rank = LOLRank.values()[LOLRank.Unranked.ordinal()+29];
+                rank = LOLRank.values()[LOLRank.Unranked.ordinal()+27];
                 //don't break, but return since Challenger is div I
                 Rank = rank;
                 setMMR();

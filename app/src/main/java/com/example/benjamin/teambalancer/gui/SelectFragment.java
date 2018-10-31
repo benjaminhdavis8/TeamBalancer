@@ -235,7 +235,9 @@ public class SelectFragment extends Fragment {
                                         filteredList.remove(addable);
                                     }
                                     if (NumSelected < MAX_PLAYERS) {
-                                        filteredList.get(0).setSelected(true);
+                                        //Summoner is selected in LOL API instead.
+                                        //filteredList.get(0).setSelected(true);
+
                                         NumSelected++;
                                         selectedCount.setText(NumSelected + "/10");
                                         NotifyDataSetChanged();

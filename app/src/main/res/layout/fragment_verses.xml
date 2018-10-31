@@ -9,61 +9,108 @@
 
     <LinearLayout
         android:id="@+id/LinearLayout"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
         android:layout_marginTop="0dp"
         android:background="@color/colorPrimaryTint"
         android:orientation="horizontal"
         android:padding="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        >
 
-        <TextView
-            android:layout_width="30dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
             android:layout_marginLeft="30dp"
             android:layout_marginStart="30dp"
-            android:layout_weight="1"
-            android:gravity="start"
-            android:text="@string/team_1"
-            android:theme="@style/FrizTheme"
-            android:textSize="20sp"
-            />
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="start"
+                android:text="@string/team_1"
+                android:theme="@style/FrizTheme"
+                android:textSize="20sp"
+                />
+
+            <TextView
+                android:id="@+id/team1_strength"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="end"
+                android:text="@string/strength"
+                android:theme="@style/FrizTheme"
+                android:textSize="14sp"
+                />
+
+
+        </LinearLayout>
+
+
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_gravity="center"
-            android:layout_marginEnd="50dp"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
-            android:layout_marginStart="50dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginStart="30dp"
             android:gravity="center"
             android:text="@string/verses_title"
             android:theme="@style/FrizTheme"
             android:textSize="26sp"
+            android:minLines="2"
             />
 
-        <TextView
-            android:layout_width="30dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
             android:layout_marginEnd="30dp"
             android:layout_marginRight="30dp"
-            android:layout_weight="1"
-            android:gravity="end|center_vertical"
-            android:text="@string/team_2"
-            android:theme="@style/FrizTheme"
-            android:textSize="20sp"
-            />
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="end"
+                android:text="@string/team_2"
+                android:theme="@style/FrizTheme"
+                android:textSize="20sp"
+                />
+
+            <TextView
+                android:id="@+id/team2_strength"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="end"
+                android:text="@string/strength"
+                android:theme="@style/FrizTheme"
+                android:textSize="14sp"
+                />
+
+
+        </LinearLayout>
+
+
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/LinearLayout2"
         android:layout_width="match_parent"
-        android:layout_height="471dp"
+        android:layout_height="450dp"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         android:orientation="horizontal"
@@ -94,7 +141,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/team2"
             app:layout_constraintStart_toEndOf="@+id/team1"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
         <LinearLayout
             android:id="@+id/team2"

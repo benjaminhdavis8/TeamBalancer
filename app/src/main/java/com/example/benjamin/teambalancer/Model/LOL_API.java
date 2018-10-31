@@ -85,6 +85,7 @@ public class LOL_API {
                                                 if (tier != null && div != null) {
                                                     summoner.setRank(tier, div);
                                                 }
+                                                summoner.setSelected(true);
                                                 adapter.add(0, summoner);
                                                 adapter.notifyDataSetChanged();
                                                 //int maxItems = result.getInt("end");
