@@ -1,6 +1,7 @@
 package com.example.benjamin.teambalancer.Model;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -16,6 +17,9 @@ import com.example.benjamin.teambalancer.gui.ISpinnerDialog;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class LOL_API {
     final private String APIKey = "RGAPI-ee9841e3-437d-429a-96bf-b962e011b31a";
@@ -35,6 +39,28 @@ public class LOL_API {
         }
 
         return instance;
+    }
+
+    public void addSummToPrefs(Friend Summoner) {
+        FriendsList friendslist = FriendsList.getInstance(context);
+        SharedPreferences prefs = context.getSharedPreferences(friendslist.PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        Set<String> canNullFriendSet = prefs.getStringSet(friendslist.PREF_SET_NAME, null);
+        if (canNullFriendSet == null) {
+            canNullFriendSet = new HashSet<>();
+        }
+        Set<String> FriendSet = new HashSet<>(canNullFriendSet);
+
+        String username = Summoner.getUsername();
+        String rank = Integer.toString(Summoner.getRank().ordinal());
+        String SummString = username + friendslist.DELIMITER + rank;
+
+        FriendSet.add(SummString);
+
+        editor.putStringSet(friendslist.PREF_SET_NAME, FriendSet);
+        editor.apply();
+
     }
 
     // Request a string response from the provided URL.
@@ -86,6 +112,7 @@ public class LOL_API {
                                                     summoner.setRank(tier, div);
                                                 }
                                                 summoner.setSelected(true);
+                                                addSummToPrefs(summoner);
                                                 adapter.add(0, summoner);
                                                 adapter.notifyDataSetChanged();
                                                 //int maxItems = result.getInt("end");

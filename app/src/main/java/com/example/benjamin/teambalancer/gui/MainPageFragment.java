@@ -33,7 +33,7 @@ public class MainPageFragment extends Fragment {
         backarrowLayout = getActivity().findViewById(R.id.backarrow_layout);
 
         List<Friend> playerlist = ((MainActivity) getActivity()).getPlayerList();
-        playerlist = FriendsList.getInstance().getFriends();
+        playerlist = FriendsList.getInstance(getContext()).getFriends();
         for (Friend f: playerlist)
         {
             f.setSelected(false);

@@ -2,6 +2,7 @@ package com.example.benjamin.teambalancer.gui;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -51,7 +52,7 @@ public class FriendsFragment extends Fragment {
         LinearLayoutManager ll = new LinearLayoutManager(view.getContext());
         ll.setOrientation(LinearLayout.VERTICAL);
         rv.setLayoutManager(ll);
-        adapter = new FriendsRVAdapter();
+        adapter = new FriendsRVAdapter(getContext());
         rv.setAdapter(adapter);
 
         backArrow = getActivity().findViewById(R.id.backarrow);
@@ -170,6 +171,10 @@ public class FriendsFragment extends Fragment {
 
     private class FriendsRVAdapter extends  FilterFriendRVAdapter<FriendsRVAdapter.ViewHolder> {
         int NumSelected = 0;
+
+        FriendsRVAdapter(Context contxt) {
+            super(contxt);
+        }
 
         @NonNull
         @Override

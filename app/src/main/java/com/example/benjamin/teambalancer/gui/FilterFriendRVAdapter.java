@@ -1,5 +1,6 @@
 package com.example.benjamin.teambalancer.gui;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 
 import com.example.benjamin.teambalancer.Model.Friend;
@@ -13,10 +14,12 @@ abstract public class FilterFriendRVAdapter<T extends RecyclerView.ViewHolder> e
     List<Friend> filteredList;
     private String filterString;
     Friend addable;
+    Context context;
 
-    FilterFriendRVAdapter() {
+    FilterFriendRVAdapter(Context contxt) {
         // debug constructor
-        dataList = FriendsList.getInstance().getFriends();
+        context = contxt;
+        dataList = FriendsList.getInstance(context).getFriends();
         filteredList = new ArrayList<>();
         filterString = "";
         addable = new Friend("");
@@ -63,7 +66,10 @@ abstract public class FilterFriendRVAdapter<T extends RecyclerView.ViewHolder> e
     }
 
     void remove(int i) {
-        dataList.remove(i);
+        FriendsList friendsList = FriendsList.getInstance(context);
+        friendsList.removeFriend(dataList.get(i));
+        //dataList.remove(i);
+        dataList = friendsList.getFriends();
         filter();
     }
 
@@ -72,8 +78,8 @@ abstract public class FilterFriendRVAdapter<T extends RecyclerView.ViewHolder> e
             return;
         }
         dataList.add(index, friend);
-        FriendsList.getInstance().sortFriends();
-        dataList = FriendsList.getInstance().getFriends();
+        FriendsList.getInstance(context).sortFriends();
+        dataList = FriendsList.getInstance(context).getFriends();
         filter();
     }
 

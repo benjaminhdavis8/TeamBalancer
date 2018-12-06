@@ -1,5 +1,6 @@
 package com.example.benjamin.teambalancer.gui;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -70,7 +71,7 @@ public class SelectFragment extends Fragment {
         searchBox = view.findViewById(R.id.search_bar);
         selectedCount = view.findViewById(R.id.selected_count);
 
-        adapter = new FriendsRVAdapter();
+        adapter = new FriendsRVAdapter(getContext());
         rv.setAdapter(adapter);
 
         backarrow = getActivity().findViewById(R.id.backarrow);
@@ -162,9 +163,9 @@ public class SelectFragment extends Fragment {
     private class FriendsRVAdapter extends FilterFriendRVAdapter<FriendsRVAdapter.ViewHolder> {
         int NumSelected = 0;
 
-        FriendsRVAdapter() {
+        FriendsRVAdapter(Context contxt) {
             // debug constructor
-            super();
+            super(contxt);
             for (Friend f: filteredList) {
                 //f.setSelected(false);
                 if (f.getSelected())
