@@ -1,4 +1,4 @@
-package com.example.benjamin.teambalancer.gui;
+package mason.and.benjamin.teambalancer.gui;
 
 public interface ISpinnerDialog {
     void showSpinner();

@@ -1,6 +1,4 @@
-package com.example.benjamin.teambalancer.Model;
-
-import android.widget.LinearLayout;
+package mason.and.benjamin.teambalancer.Model;
 
 public enum LOLRank {
 

@@ -1,4 +1,4 @@
-package com.example.benjamin.teambalancer.gui;
+package mason.and.benjamin.teambalancer.gui;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.v4.app.Fragment;
-import android.text.InputFilter;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,10 +14,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.benjamin.teambalancer.MainActivity;
-import com.example.benjamin.teambalancer.Model.Friend;
-import com.example.benjamin.teambalancer.Model.FriendData;
-import com.example.benjamin.teambalancer.R;
+import mason.and.benjamin.teambalancer.MainActivity;
+import mason.and.benjamin.teambalancer.Model.Friend;
+
+import mason.and.benjamin.teambalancer.R;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -1,4 +1,4 @@
-package com.example.benjamin.teambalancer.Visuals;
+package mason.and.benjamin.teambalancer.Visuals;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -6,9 +6,8 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.text.TextPaint;
 import android.util.AttributeSet;
-import android.widget.TextView;
 
-import com.example.benjamin.teambalancer.R;
+import mason.and.benjamin.teambalancer.R;
 
 public class OutlineTextView extends android.support.v7.widget.AppCompatTextView {
 

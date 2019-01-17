@@ -1,8 +1,6 @@
-package com.example.benjamin.teambalancer.gui;
+package mason.and.benjamin.teambalancer.gui;
 
 import android.app.Dialog;
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
@@ -25,11 +23,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.benjamin.teambalancer.MainActivity;
-import com.example.benjamin.teambalancer.Model.Friend;
-import com.example.benjamin.teambalancer.Model.FriendData;
-import com.example.benjamin.teambalancer.Model.LOLRank;
-import com.example.benjamin.teambalancer.R;
+import mason.and.benjamin.teambalancer.MainActivity;
+import mason.and.benjamin.teambalancer.Model.Friend;
+import mason.and.benjamin.teambalancer.Model.LOLRank;
+import mason.and.benjamin.teambalancer.R;
 
 import java.util.ArrayList;
 import java.util.List;

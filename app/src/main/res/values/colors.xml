@@ -7,6 +7,8 @@
     <color name="colorAccentold">#E0DE3C</color>
 
     <color name="colorPrimary">#00849b</color>
+    <color name="colorPrimaryLight">#009cb7</color>
+    <color name="colorPrimaryLighter">#00aecc</color>
     <color name="colorPrimaryDark">#08323d</color>
     <color name="colorPrimaryTint">#16c8c8</color>
     <color name="colorPrimaryTint2">#00dfee</color>

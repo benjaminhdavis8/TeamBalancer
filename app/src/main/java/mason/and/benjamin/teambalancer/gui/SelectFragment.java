@@ -1,8 +1,6 @@
-package com.example.benjamin.teambalancer.gui;
+package mason.and.benjamin.teambalancer.gui;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -23,13 +21,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.benjamin.teambalancer.MainActivity;
-import com.example.benjamin.teambalancer.Model.Friend;
-import com.example.benjamin.teambalancer.Model.LOLRank;
-import com.example.benjamin.teambalancer.Model.LOL_API;
-import com.example.benjamin.teambalancer.R;
-
-import org.w3c.dom.Text;
+import mason.and.benjamin.teambalancer.MainActivity;
+import mason.and.benjamin.teambalancer.Model.Friend;
+import mason.and.benjamin.teambalancer.Model.LOLRank;
+import mason.and.benjamin.teambalancer.Model.LOL_API;
+import mason.and.benjamin.teambalancer.R;
 
 import java.util.ArrayList;
 import java.util.List;

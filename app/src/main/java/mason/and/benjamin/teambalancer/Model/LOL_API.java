@@ -1,4 +1,4 @@
-package com.example.benjamin.teambalancer.Model;
+package mason.and.benjamin.teambalancer.Model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -11,8 +11,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.benjamin.teambalancer.gui.FilterFriendRVAdapter;
-import com.example.benjamin.teambalancer.gui.ISpinnerDialog;
+import mason.and.benjamin.teambalancer.gui.FilterFriendRVAdapter;
+import mason.and.benjamin.teambalancer.gui.ISpinnerDialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;

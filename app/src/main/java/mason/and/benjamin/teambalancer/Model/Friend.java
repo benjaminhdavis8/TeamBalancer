@@ -1,11 +1,11 @@
-package com.example.benjamin.teambalancer.Model;
+package mason.and.benjamin.teambalancer.Model;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 
-import com.example.benjamin.teambalancer.R;
+import mason.and.benjamin.teambalancer.R;
 
 import static android.graphics.Color.BLACK;
 

@@ -1,18 +1,21 @@
-package com.example.benjamin.teambalancer;
+package mason.and.benjamin.teambalancer;
 
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.benjamin.teambalancer.Model.Friend;
-import com.example.benjamin.teambalancer.gui.*;
+import mason.and.benjamin.teambalancer.Model.Friend;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import mason.and.benjamin.teambalancer.gui.FriendsFragment;
+import mason.and.benjamin.teambalancer.gui.MainPageFragment;
+import mason.and.benjamin.teambalancer.gui.SelectFragment;
+import mason.and.benjamin.teambalancer.gui.VersesFragment;
 
 public class MainActivity extends AppCompatActivity {
     List<Friend> playerList;

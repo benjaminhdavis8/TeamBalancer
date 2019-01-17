@@ -1,4 +1,4 @@
-package com.example.benjamin.teambalancer.Model;
+package mason.and.benjamin.teambalancer.Model;
 
 import android.content.Context;
 import android.content.SharedPreferences;

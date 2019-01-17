@@ -1,10 +1,10 @@
-package com.example.benjamin.teambalancer.gui;
+package mason.and.benjamin.teambalancer.gui;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 
-import com.example.benjamin.teambalancer.Model.Friend;
-import com.example.benjamin.teambalancer.Model.FriendsList;
+import mason.and.benjamin.teambalancer.Model.Friend;
+import mason.and.benjamin.teambalancer.Model.FriendsList;
 
 import java.util.ArrayList;
 import java.util.List;

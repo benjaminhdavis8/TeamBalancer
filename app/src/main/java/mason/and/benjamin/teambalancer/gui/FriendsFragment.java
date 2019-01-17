@@ -1,4 +1,4 @@
-package com.example.benjamin.teambalancer.gui;
+package mason.and.benjamin.teambalancer.gui;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -24,10 +24,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.benjamin.teambalancer.Model.Friend;
-import com.example.benjamin.teambalancer.Model.LOLRank;
-import com.example.benjamin.teambalancer.Model.LOL_API;
-import com.example.benjamin.teambalancer.R;
+import mason.and.benjamin.teambalancer.Model.Friend;
+import mason.and.benjamin.teambalancer.Model.LOLRank;
+import mason.and.benjamin.teambalancer.Model.LOL_API;
+import mason.and.benjamin.teambalancer.R;
 
 import java.util.ArrayList;
 import java.util.List;
